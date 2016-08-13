@@ -48,7 +48,7 @@
                 for (int i = 0; i < StrobedVehicles.Count; i++)
                 {
                     StrobedVehicle v = StrobedVehicles[i];
-                    if (v == null && !v.Vehicle || v.Vehicle == Game.LocalPlayer.Character.CurrentVehicle || v.Vehicle.DistanceTo2D(Game.LocalPlayer.Character) > ActionRadius)
+                    if (v == null || !v.Vehicle || v.Vehicle == Game.LocalPlayer.Character.CurrentVehicle || v.Vehicle.DistanceTo2D(Game.LocalPlayer.Character) > ActionRadius)
                     {
                         if (v != null && v.Vehicle)
                             v.Reset();
