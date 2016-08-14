@@ -5,6 +5,7 @@
     using System.IO;
     using System.Xml.Serialization;
     using System.Windows.Forms;
+    using System.Media;
 
     // RPH
     using Rage;
@@ -24,6 +25,8 @@
 
         public static readonly bool ShowUI = INIFile.ReadBoolean("General", "Show UI", true);
         public static readonly string UIFontName = INIFile.ReadString("General", "UI Font", "Stencil Std");
+
+        public static readonly SoundPlayer SwitchSound;
 
         static Settings()
         {
@@ -82,6 +85,12 @@
                     s.Serialize(writer, Patterns);
                 }
             }
+
+
+            if (File.Exists(@"Plugins\Emergency Strobes\switch.wav"))
+                SwitchSound = new SoundPlayer(@"Plugins\Emergency Strobes\switch.wav");
+            else
+                SwitchSound = new SoundPlayer(Emergency_Strobes.Properties.Resources._switch);
         }
     }
 }
