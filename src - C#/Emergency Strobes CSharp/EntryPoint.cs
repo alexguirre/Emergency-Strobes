@@ -101,14 +101,17 @@
         {
             Ped playerPed = Game.LocalPlayer.Character;
 
-            if (playerPed.CurrentVehicle)
+            Vehicle current = playerPed.CurrentVehicle;
+            Vehicle last = playerPed.LastVehicle;
+
+            if (current && current.HasSiren && !Settings.ExcludedVehicleModels.Any(m => current.Model == m))
             {
-                PlayerStrobedVehicle = new PlayerStrobedVehicle(playerPed.CurrentVehicle, 0);
+                PlayerStrobedVehicle = new PlayerStrobedVehicle(current, 0);
                 return true;
             }
-            else if (playerPed.LastVehicle)
+            else if (last && last.HasSiren && !Settings.ExcludedVehicleModels.Any(m => last.Model == m))
             {
-                PlayerStrobedVehicle = new PlayerStrobedVehicle(playerPed.LastVehicle, 0);
+                PlayerStrobedVehicle = new PlayerStrobedVehicle(last, 0);
                 return true;
             }
             return false;
