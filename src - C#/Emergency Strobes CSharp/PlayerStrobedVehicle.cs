@@ -250,8 +250,9 @@
         private RectangleF uiLeftHeadlightRectangle = new RectangleF(1920 - 360 + 32, 32, 32, 32).ConvertToCurrentCoordSystem();
         private RectangleF uiRightHeadlightRectangle = new RectangleF(1920 - 360 + 280 - 64, 32, 32, 32).ConvertToCurrentCoordSystem();
 
-        private Color onColor = Color.White;
+        private Color onColor = Color.Orange;
         private Color offColor = Color.FromArgb(20, 20, 20);
+        private Color textColor = Color.White;
 
         private PointF uiTitlePosition;
         private string uiTitleText = $"Emergency Strobes v{Assembly.GetExecutingAssembly().GetName().Version}";
@@ -334,9 +335,9 @@
                 UIDrawRectangleBorders(g, uiRightHeadlightRectangle, 2.5f, Color.Black);
                 UIDrawRectangleBorders(g, uiBackgroundRectangle, 2.5f, Color.Black);
 
-                g.DrawText(uiTitleText, uiTitleFont, uiTitleFontSize, uiTitlePosition, onColor);
-                g.DrawText(uiCurrentPatternText, uiCurrentPatternFont, uiCurrentPatternFontSize, uiCurrentPatternPosition, onColor);
-                g.DrawText(uiHelpTipText, uiHelpTipFont, uiHelpTipFontSize, uiHelpTipPosition, onColor);
+                g.DrawText(uiTitleText, uiTitleFont, uiTitleFontSize, uiTitlePosition, textColor);
+                g.DrawText(uiCurrentPatternText, uiCurrentPatternFont, uiCurrentPatternFontSize, uiCurrentPatternPosition, textColor);
+                g.DrawText(uiHelpTipText, uiHelpTipFont, uiHelpTipFontSize, uiHelpTipPosition, textColor);
             }
         }
 
