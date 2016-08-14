@@ -21,6 +21,7 @@
 
         private bool active;
         private bool manuallyActive;
+        private bool manualDisable;
 
         public PlayerStrobedVehicle(Vehicle veh, int patternIndex)
         {
@@ -47,11 +48,15 @@
             active = Vehicle.IsSirenOn;
 
             bool prevManuallyActive = manuallyActive;
-            if (Game.IsKeyDown(Settings.ToggleKey))
+            if (!active && Game.IsKeyDown(Settings.ToggleKey))
                 manuallyActive = !manuallyActive;
+
 
             if (active != prevActive || manuallyActive != prevManuallyActive)
             {
+                if (!active)
+                    manualDisable = false;
+
                 if (active || manuallyActive)
                 {
                     //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, Settings.Brightness);
@@ -67,7 +72,26 @@
                 }
             }
 
-            if (active || manuallyActive)
+            bool prevManualDisable = manualDisable;
+            if (active && Game.IsKeyDown(Settings.ToggleKey))
+                manualDisable = !manualDisable;
+
+            if (manualDisable != prevManualDisable)
+            {
+                if (manualDisable)
+                {
+                    Vehicle.SetLeftHeadlightBroken(false);
+                    Vehicle.SetRightHeadlightBroken(false);
+                    NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
+                }
+                else
+                {
+                    NativeFunction.Natives.SetVehicleLights(Vehicle, 2);
+                    UpdateVehicleToCurrentStage();
+                }
+            }
+
+            if ((active || manuallyActive) && !manualDisable)
             {
                 if (NeedsToChangeStage())
                 {
@@ -97,7 +121,7 @@
         {
             Vehicle.SetLeftHeadlightBroken(false);
             Vehicle.SetRightHeadlightBroken(false);
-            NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, 1.0f);
+            //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, 1.0f);
             NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
         }
 
