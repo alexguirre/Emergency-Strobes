@@ -51,7 +51,7 @@
                     if (v == null || !v.Vehicle || v.Vehicle == Game.LocalPlayer.Character.CurrentVehicle || v.Vehicle.DistanceTo2D(Game.LocalPlayer.Character) > ActionRadius)
                     {
                         if (v != null && v.Vehicle)
-                            v.Reset();
+                            v.ResetVehicleLights();
                         StrobedVehicles.RemoveAt(i);
                         continue;
                     }
@@ -65,17 +65,30 @@
                 }
                 else if (!PlayerStrobedVehicle.Vehicle)
                 {
-                    //if (PlayerStrobedVehicle != null && PlayerStrobedVehicle.Vehicle)
-                    //    PlayerStrobedVehicle.Reset();
+                    PlayerStrobedVehicle?.CleanUp();
                     PlayerStrobedVehicle = null;
                 }
                 else if (Game.LocalPlayer.Character.IsInAnyVehicle(false) && PlayerStrobedVehicle.Vehicle != Game.LocalPlayer.Character.CurrentVehicle)
                 {
+                    if (PlayerStrobedVehicle != null)
+                    {
+                        PlayerStrobedVehicle.CleanUp();
+                        if (PlayerStrobedVehicle.Vehicle)
+                            PlayerStrobedVehicle.ResetVehicleLights();
+                    }
                     PlayerStrobedVehicle = null;
                     CreatePlayerStrobedVehicle();
                 }
 
                 PlayerStrobedVehicle?.Update();
+
+#if DEBUG
+                if (PlayerStrobedVehicle != null)
+                {
+                    if (Game.IsKeyDown(Keys.U))
+                        PlayerStrobedVehicle.ShowUI(15.0);
+                }
+#endif
             }
         }
 

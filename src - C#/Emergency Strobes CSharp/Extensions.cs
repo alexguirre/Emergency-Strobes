@@ -1,5 +1,8 @@
 ﻿namespace Emergency_Strobes
 {
+    // System
+    using System.Drawing;
+
     // RPH
     using Rage;
     using Rage.Native;
@@ -42,6 +45,15 @@
         public static bool IsRightHeadlightBroken(this Vehicle v)
         {
             return NativeFunction.Natives.GetIsRightVehicleHeadlightDamaged<bool>(v);
+        }
+
+        public static RectangleF ConvertToCurrentCoordSystem(this RectangleF rectangle)
+        {
+            Size origRes = Game.Resolution;
+            float aspectRatio = origRes.Width / (float)origRes.Height;
+            PointF pos = new PointF(rectangle.X / (1080 * aspectRatio), rectangle.Y / 1080f);
+            SizeF siz = new SizeF(rectangle.Width / (1080 * aspectRatio), rectangle.Height / 1080f);
+            return new RectangleF(pos.X * Game.Resolution.Width, pos.Y * Game.Resolution.Height, siz.Width * Game.Resolution.Width, siz.Height * Game.Resolution.Height);
         }
     }
 }

@@ -73,11 +73,11 @@
             }
         }
 
-        public void Reset()
+        public void ResetVehicleLights()
         {
             Vehicle.SetLeftHeadlightBroken(false);
             Vehicle.SetRightHeadlightBroken(false);
-            NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, 1.0f);
+            //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, 1.0f);
             NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
         }
 

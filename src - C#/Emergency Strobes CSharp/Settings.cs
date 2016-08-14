@@ -11,7 +11,7 @@
 
     internal static class Settings
     {
-        public static readonly InitializationFile INIFile = new InitializationFile("Emergency Strobes Configuration.ini", false);
+        public static readonly InitializationFile INIFile = new InitializationFile(@"Plugins\Emergency Strobes Configuration.ini", false);
 
         public static readonly Model[] ExcludedVehicleModels = Array.ConvertAll(INIFile.ReadString("General", "Excluded Vehicle Models", "").Split(','), (s) => { return new Model(s); } );
 
@@ -21,6 +21,9 @@
         public static readonly Keys SwitchPatternKey = INIFile.ReadEnum("General", "Switch Pattern Key", Keys.F8);
 
         //public static readonly float Brightness = INIFile.ReadSingle("General", "Brightness", 8.0f);
+
+        public static readonly bool ShowUI = INIFile.ReadBoolean("General", "Show UI", true);
+        public static readonly string UIFontName = INIFile.ReadString("General", "UI Font", "Stencil Std");
 
         static Settings()
         {
