@@ -28,8 +28,8 @@
             Pattern = pattern;
             stagesCount = Pattern.Stages.Length;
 
-            Vector3 headlightLeftPos = veh.GetBonePosition("headlight_l");
-            Vector3 headlightRightPos = veh.GetBonePosition("headlight_r");
+            Vector3 headlightLeftPos = veh.HasBone("headlight_l") ? veh.GetBonePosition("headlight_l") : Vector3.Zero;
+            Vector3 headlightRightPos = veh.HasBone("headlight_r") ? veh.GetBonePosition("headlight_r") : Vector3.Zero;
 
             // if a headlight is broken it returns position Vector3 around Vector3.Zero, if so get an approximate offset
             if (headlightLeftPos.DistanceTo(Vector3.Zero) < 1.25f)
