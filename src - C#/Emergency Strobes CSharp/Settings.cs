@@ -18,13 +18,14 @@
 
         public static readonly Pattern[] Patterns;
 
-        public static readonly Keys ToggleKey = INIFile.ReadEnum("General", "Toggle Key", Keys.T);
-        public static readonly Keys SwitchPatternKey = INIFile.ReadEnum("General", "Switch Pattern Key", Keys.F8);
+        public static readonly bool AIEnabled = INIFile.ReadBoolean("General", "AI", true);
+        public static readonly bool PlayerEnabled = INIFile.ReadBoolean("General", "Player", true);
 
-        //public static readonly float Brightness = INIFile.ReadSingle("General", "Brightness", 8.0f);
+        public static readonly Keys ToggleKey = INIFile.ReadEnum("Keys", "Toggle", Keys.T);
+        public static readonly Keys SwitchPatternKey = INIFile.ReadEnum("Keys", "Switch Pattern", Keys.F8);
 
-        public static readonly bool ShowUI = INIFile.ReadBoolean("General", "Show UI", true);
-        public static readonly string UIFontName = INIFile.ReadString("General", "UI Font", "Stencil Std");
+        public static readonly bool ShowUI = INIFile.ReadBoolean("UI", "Show", true);
+        public static readonly string UIFontName = INIFile.ReadString("UI", "Font", "Stencil Std");
 
         public static readonly SoundPlayer SwitchSound;
 
@@ -42,7 +43,7 @@
             {
                 Patterns = new Pattern[]
                 {
-                    new Pattern("Pattern1", new Pattern.Stage[] // LAPD
+                    new Pattern("Pattern1", new Pattern.Stage[]
                     {
                         new Pattern.Stage(PatternStageType.LeftOnly, 30),
                         new Pattern.Stage(PatternStageType.Both, 30),
@@ -70,7 +71,7 @@
                         new Pattern.Stage(PatternStageType.Both, 30),
                     }),
 
-                    new Pattern("Pattern4", new Pattern.Stage[] // LAPD fast
+                    new Pattern("Pattern4", new Pattern.Stage[]
                     {
                         new Pattern.Stage(PatternStageType.LeftOnly, 10),
                         new Pattern.Stage(PatternStageType.Both, 10),

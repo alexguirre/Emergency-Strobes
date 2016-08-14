@@ -26,69 +26,67 @@
         {
             while (Game.IsLoading)
                 GameFiber.Yield();
-            
+
             while (true)
             {
                 GameFiber.Yield();
 
-                if ((DateTime.UtcNow - lastVehiclesWithSirenCheck).TotalSeconds > 1.25)
+                if (Settings.AIEnabled)
                 {
-                    Vehicle[] veh = World.GetAllVehicles();
-
-                    for (int i = 0; i < veh.Length; i++)
+                    if ((DateTime.UtcNow - lastVehiclesWithSirenCheck).TotalSeconds > 1.25)
                     {
-                        if(CanBeStrobedVehicle(veh[i]))
+                        Vehicle[] veh = World.GetAllVehicles();
+
+                        for (int i = 0; i < veh.Length; i++)
                         {
-                            StrobedVehicles.Add(new StrobedVehicle(veh[i], Settings.Patterns[Random.Next(Settings.Patterns.Length)]));
+                            if (CanBeStrobedVehicle(veh[i]))
+                            {
+                                StrobedVehicles.Add(new StrobedVehicle(veh[i], Settings.Patterns[Random.Next(Settings.Patterns.Length)]));
+                            }
                         }
+                        lastVehiclesWithSirenCheck = DateTime.UtcNow;
                     }
-                    lastVehiclesWithSirenCheck = DateTime.UtcNow;
-                }
 
-                for (int i = 0; i < StrobedVehicles.Count; i++)
-                {
-                    StrobedVehicle v = StrobedVehicles[i];
-                    if (v == null || !v.Vehicle || v.Vehicle == Game.LocalPlayer.Character.CurrentVehicle || v.Vehicle.DistanceTo2D(Game.LocalPlayer.Character) > ActionRadius)
+                    for (int i = 0; i < StrobedVehicles.Count; i++)
                     {
-                        if (v != null && v.Vehicle)
-                            v.ResetVehicleLights();
-                        StrobedVehicles.RemoveAt(i);
-                        continue;
+                        StrobedVehicle v = StrobedVehicles[i];
+                        if (v == null || !v.Vehicle || v.Vehicle == Game.LocalPlayer.Character.CurrentVehicle || v.Vehicle.DistanceTo2D(Game.LocalPlayer.Character) > ActionRadius)
+                        {
+                            if (v != null && v.Vehicle)
+                                v.ResetVehicleLights();
+                            StrobedVehicles.RemoveAt(i);
+                            continue;
+                        }
+
+                        v.Update();
                     }
-
-                    v.Update();
                 }
 
-                if (PlayerStrobedVehicle == null)
+                if (Settings.PlayerEnabled)
                 {
-                    CreatePlayerStrobedVehicle();
-                }
-                else if (!PlayerStrobedVehicle.Vehicle)
-                {
-                    PlayerStrobedVehicle?.CleanUp();
-                    PlayerStrobedVehicle = null;
-                }
-                else if (Game.LocalPlayer.Character.IsInAnyVehicle(false) && PlayerStrobedVehicle.Vehicle != Game.LocalPlayer.Character.CurrentVehicle)
-                {
-                    if (PlayerStrobedVehicle != null)
+                    if (PlayerStrobedVehicle == null)
                     {
-                        PlayerStrobedVehicle.CleanUp();
-                        if (PlayerStrobedVehicle.Vehicle)
-                            PlayerStrobedVehicle.ResetVehicleLights();
+                        CreatePlayerStrobedVehicle();
                     }
-                    PlayerStrobedVehicle = null;
-                    CreatePlayerStrobedVehicle();
-                }
+                    else if (!PlayerStrobedVehicle.Vehicle)
+                    {
+                        PlayerStrobedVehicle?.CleanUp();
+                        PlayerStrobedVehicle = null;
+                    }
+                    else if (Game.LocalPlayer.Character.IsInAnyVehicle(false) && PlayerStrobedVehicle.Vehicle != Game.LocalPlayer.Character.CurrentVehicle)
+                    {
+                        if (PlayerStrobedVehicle != null)
+                        {
+                            PlayerStrobedVehicle.CleanUp();
+                            if (PlayerStrobedVehicle.Vehicle)
+                                PlayerStrobedVehicle.ResetVehicleLights();
+                        }
+                        PlayerStrobedVehicle = null;
+                        CreatePlayerStrobedVehicle();
+                    }
 
-                PlayerStrobedVehicle?.Update();
-
-#if DEBUG
-                if (PlayerStrobedVehicle != null)
-                {
-                    if (Game.IsKeyDown(Keys.U))
-                        PlayerStrobedVehicle.ShowUI(15.0);
+                    PlayerStrobedVehicle?.Update();
                 }
-#endif
             }
         }
 
