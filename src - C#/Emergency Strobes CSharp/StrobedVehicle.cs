@@ -49,7 +49,7 @@
                 Vector3 rightPosOffset = veh.GetPositionOffset(veh.RightPosition);
                 Vector3 frontPosOffset = veh.GetPositionOffset(veh.FrontPosition);
 
-                leftHeadlightOffset = new Vector3(rightPosOffset.X, frontPosOffset.Y, frontPosOffset.Z);
+                rightHeadlightOffset = new Vector3(rightPosOffset.X, frontPosOffset.Y, frontPosOffset.Z);
             }
             else
             {
