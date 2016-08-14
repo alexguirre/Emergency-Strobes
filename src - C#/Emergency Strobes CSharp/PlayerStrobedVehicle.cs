@@ -13,6 +13,8 @@
 
     internal class PlayerStrobedVehicle
     {
+        public const float HeadlightsDeformationThreshold = 0.0022225f;
+
         public readonly Vehicle Vehicle;
         public Pattern Pattern;
         public int PatternIndex;
@@ -29,6 +31,9 @@
 
         private bool isPlayerInVehicle;
 
+        private bool shouldLeftHeadlightBeBroken, shouldRightHeadlightBeBroken;
+        private Vector3 leftHeadlightOffset, rightHeadlightOffset;
+
         public PlayerStrobedVehicle(Vehicle veh, int patternIndex)
         {
             Vehicle = veh;
@@ -39,6 +44,34 @@
             {
                 InitUI();
                 Game.RawFrameRender += OnRawFrameRender;
+            }
+
+            Vector3 headlightLeftPos = veh.GetBonePosition("headlight_l");
+            Vector3 headlightRightPos = veh.GetBonePosition("headlight_r");
+
+            // if a headlight is broken it returns position Vector3 around Vector3.Zero, if so get an approximate offset
+            if (headlightLeftPos.DistanceTo(Vector3.Zero) < 1.25f)
+            {
+                Vector3 leftPosOffset = veh.GetPositionOffset(veh.LeftPosition);
+                Vector3 frontPosOffset = veh.GetPositionOffset(veh.FrontPosition);
+
+                leftHeadlightOffset = new Vector3(leftPosOffset.X, frontPosOffset.Y, frontPosOffset.Z);
+            }
+            else
+            {
+                leftHeadlightOffset = veh.GetPositionOffset(headlightLeftPos);
+            }
+
+            if (headlightRightPos.DistanceTo(Vector3.Zero) < 1.25f)
+            {
+                Vector3 rightPosOffset = veh.GetPositionOffset(veh.RightPosition);
+                Vector3 frontPosOffset = veh.GetPositionOffset(veh.FrontPosition);
+
+                leftHeadlightOffset = new Vector3(rightPosOffset.X, frontPosOffset.Y, frontPosOffset.Z);
+            }
+            else
+            {
+                rightHeadlightOffset = veh.GetPositionOffset(headlightRightPos);
             }
         }
 
@@ -77,13 +110,17 @@
                 {
                     //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, Settings.Brightness);
                     NativeFunction.Natives.SetVehicleLights(Vehicle, 2);
+                    shouldLeftHeadlightBeBroken = Vehicle.GetDeformationAt(leftHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
+                    shouldRightHeadlightBeBroken = Vehicle.GetDeformationAt(rightHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
                     UpdateVehicleToCurrentStage();
                     ShowUI(12.5);
                 }
                 else
                 {
-                    Vehicle.SetLeftHeadlightBroken(false);
-                    Vehicle.SetRightHeadlightBroken(false);
+                    if (!shouldLeftHeadlightBeBroken)
+                        Vehicle.SetLeftHeadlightBroken(false);
+                    if (!shouldRightHeadlightBeBroken)
+                        Vehicle.SetRightHeadlightBroken(false);
                     //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, 1.0f);
                     NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
                 }
@@ -97,13 +134,17 @@
             {
                 if (manualDisable)
                 {
-                    Vehicle.SetLeftHeadlightBroken(false);
-                    Vehicle.SetRightHeadlightBroken(false);
+                    if (!shouldLeftHeadlightBeBroken)
+                        Vehicle.SetLeftHeadlightBroken(false);
+                    if (!shouldRightHeadlightBeBroken)
+                        Vehicle.SetRightHeadlightBroken(false);
                     NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
                 }
                 else
                 {
                     NativeFunction.Natives.SetVehicleLights(Vehicle, 2);
+                    shouldLeftHeadlightBeBroken = Vehicle.GetDeformationAt(leftHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
+                    shouldRightHeadlightBeBroken = Vehicle.GetDeformationAt(rightHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
                     UpdateVehicleToCurrentStage();
                 }
             }
@@ -112,6 +153,9 @@
             {
                 if (NeedsToChangeStage())
                 {
+                    shouldLeftHeadlightBeBroken = Vehicle.GetDeformationAt(leftHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
+                    shouldRightHeadlightBeBroken = Vehicle.GetDeformationAt(rightHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
+
                     int newStageIndex = currentStageIndex + 1;
                     if (newStageIndex >= stagesCount)
                         newStageIndex = 0;
@@ -136,8 +180,10 @@
 
         public void ResetVehicleLights()
         {
-            Vehicle.SetLeftHeadlightBroken(false);
-            Vehicle.SetRightHeadlightBroken(false);
+            if (!shouldLeftHeadlightBeBroken)
+                Vehicle.SetLeftHeadlightBroken(false);
+            if (!shouldRightHeadlightBeBroken)
+                Vehicle.SetRightHeadlightBroken(false);
             //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, 1.0f);
             NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
         }
@@ -165,15 +211,19 @@
                     Vehicle.SetRightHeadlightBroken(true);
                     break;
                 case PatternStageType.Both:
-                    Vehicle.SetLeftHeadlightBroken(false);
-                    Vehicle.SetRightHeadlightBroken(false);
+                    if (!shouldLeftHeadlightBeBroken)
+                        Vehicle.SetLeftHeadlightBroken(false);
+                    if (!shouldRightHeadlightBeBroken)
+                        Vehicle.SetRightHeadlightBroken(false);
                     break;
                 case PatternStageType.LeftOnly:
                     Vehicle.SetLeftHeadlightBroken(true);
-                    Vehicle.SetRightHeadlightBroken(false);
+                    if (!shouldRightHeadlightBeBroken)
+                        Vehicle.SetRightHeadlightBroken(false);
                     break;
                 case PatternStageType.RightOnly:
-                    Vehicle.SetLeftHeadlightBroken(false);
+                    if (!shouldLeftHeadlightBeBroken)
+                        Vehicle.SetLeftHeadlightBroken(false);
                     Vehicle.SetRightHeadlightBroken(true);
                     break;
             }

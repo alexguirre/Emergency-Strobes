@@ -55,5 +55,10 @@
             SizeF siz = new SizeF(rectangle.Width / (1080 * aspectRatio), rectangle.Height / 1080f);
             return new RectangleF(pos.X * Game.Resolution.Width, pos.Y * Game.Resolution.Height, siz.Width * Game.Resolution.Width, siz.Height * Game.Resolution.Height);
         }
+
+        public static Vector3 GetDeformationAt(this Vehicle v, Vector3 offset)
+        {
+            return NativeFunction.Natives.GetVehicleDeformationAtPos<Vector3>(v, offset.X, offset.Y, offset.Z);
+        }
     }
 }
