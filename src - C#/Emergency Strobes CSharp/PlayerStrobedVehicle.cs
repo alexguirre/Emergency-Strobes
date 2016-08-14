@@ -98,7 +98,7 @@
             active = Vehicle.IsSirenOn;
 
             bool prevManuallyActive = manuallyActive;
-            if (isPlayerInVehicle && !active && Game.IsKeyDown(Settings.ToggleKey))
+            if (isPlayerInVehicle && !active && Control.Toggle.IsJustPressed())
                 manuallyActive = !manuallyActive;
 
 
@@ -128,7 +128,7 @@
             }
 
             bool prevManualDisable = manualDisable;
-            if (isPlayerInVehicle && active && Game.IsKeyDown(Settings.ToggleKey))
+            if (isPlayerInVehicle && active && Control.Toggle.IsJustPressed())
                 manualDisable = !manualDisable;
 
             if (manualDisable != prevManualDisable)
@@ -169,7 +169,7 @@
                 currentStageRemainingTicks--;
             }
 
-            if (Game.IsKeyDown(Settings.SwitchPatternKey))
+            if (Control.SwitchPattern.IsJustPressed())
             {
                 int newIndex = PatternIndex + 1;
                 if (newIndex >= Settings.Patterns.Length)

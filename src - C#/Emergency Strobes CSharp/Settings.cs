@@ -21,6 +21,7 @@
         public static readonly bool AIEnabled = INIFile.ReadBoolean("General", "AI", true);
         public static readonly bool PlayerEnabled = INIFile.ReadBoolean("General", "Player", true);
 
+        public static readonly Keys ModifierKey = INIFile.ReadEnum("Keys", "Modifier", Keys.None);
         public static readonly Keys ToggleKey = INIFile.ReadEnum("Keys", "Toggle", Keys.T);
         public static readonly Keys SwitchPatternKey = INIFile.ReadEnum("Keys", "Switch Pattern", Keys.F8);
 
