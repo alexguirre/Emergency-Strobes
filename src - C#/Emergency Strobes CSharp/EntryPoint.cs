@@ -13,7 +13,7 @@
 
     internal static class EntryPoint
     {
-        public const float ActionRadius = 100.0f;
+        public const float ActionRadius = 275.0f;
 
         public static readonly Random Random = new Random();
 
