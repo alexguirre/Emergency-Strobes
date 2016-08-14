@@ -116,5 +116,25 @@
             }
             return false;
         }
+
+
+        public static void OnUnload(bool b)
+        {
+            foreach (StrobedVehicle v in StrobedVehicles)
+            {
+                if (v != null && v.Vehicle)
+                    v.ResetVehicleLights();
+            }
+            StrobedVehicles.Clear();
+
+            if (PlayerStrobedVehicle != null)
+            {
+                PlayerStrobedVehicle.CleanUp();
+                if (PlayerStrobedVehicle.Vehicle)
+                    PlayerStrobedVehicle.ResetVehicleLights();
+            }
+
+            Settings.SwitchSound.Dispose();
+        }
     }
 }
