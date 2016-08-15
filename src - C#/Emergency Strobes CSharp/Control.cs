@@ -1,7 +1,11 @@
 ﻿namespace Emergency_Strobes
 {
+    // System
+    using System.Windows.Forms;
+
     // RPH
     using Rage;
+    using Rage.Native;
 
     internal enum Control
     {
@@ -11,25 +15,51 @@
 
     internal static class ControlExtensions
     {
+        private static bool IsUsingController => !NativeFunction.CallByHash<bool>(0xa571d46727e2b718, 2);
+
         public static bool IsJustPressed(this Control c)
         {
-            bool modifier = Settings.ModifierKey == System.Windows.Forms.Keys.None ? true : Game.IsKeyDownRightNow(Settings.ModifierKey);
-
-            if (modifier)
+            if (IsUsingController)
             {
-                bool key = false;
+                bool modifier = (Settings.ModifierButton == ControllerButtons.None ? true : Game.IsControllerButtonDownRightNow(Settings.ModifierButton));
 
-                switch (c)
+                if (modifier)
                 {
-                    case Control.Toggle:
-                        key = Game.IsKeyDown(Settings.ToggleKey);
-                        break;
-                    case Control.SwitchPattern:
-                        key = Game.IsKeyDown(Settings.SwitchPatternKey);
-                        break;
-                }
+                    bool key = false;
 
-                return modifier && key;
+                    switch (c)
+                    {
+                        case Control.Toggle:
+                            key = (Settings.ToggleButton == ControllerButtons.None ? false : Game.IsControllerButtonDown(Settings.ToggleButton));
+                            break;
+                        case Control.SwitchPattern:
+                            key = (Settings.SwitchPatternButton == ControllerButtons.None ? false : Game.IsControllerButtonDown(Settings.SwitchPatternButton));
+                            break;
+                    }
+
+                    return modifier && key;
+                }
+            }
+            else
+            {
+                bool modifier = (Settings.ModifierKey == Keys.None ? true : Game.IsKeyDownRightNow(Settings.ModifierKey));
+
+                if (modifier)
+                {
+                    bool key = false;
+
+                    switch (c)
+                    {
+                        case Control.Toggle:
+                            key = (Settings.ToggleKey == Keys.None ? false : Game.IsKeyDown(Settings.ToggleKey));
+                            break;
+                        case Control.SwitchPattern:
+                            key = (Settings.SwitchPatternKey == Keys.None ? false : Game.IsKeyDown(Settings.SwitchPatternKey));
+                            break;
+                    }
+
+                    return modifier && key;
+                }
             }
 
             return false;

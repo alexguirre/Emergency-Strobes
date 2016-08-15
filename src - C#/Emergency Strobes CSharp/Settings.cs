@@ -25,6 +25,10 @@
         public static readonly Keys ToggleKey = INIFile.ReadEnum("Keys", "Toggle", Keys.T);
         public static readonly Keys SwitchPatternKey = INIFile.ReadEnum("Keys", "Switch Pattern", Keys.F8);
 
+        public static readonly ControllerButtons ModifierButton = INIFile.ReadEnum("ControllerButtons", "Modifier", ControllerButtons.None);
+        public static readonly ControllerButtons ToggleButton = INIFile.ReadEnum("ControllerButtons", "Toggle", ControllerButtons.None);
+        public static readonly ControllerButtons SwitchPatternButton = INIFile.ReadEnum("ControllerButtons", "Switch Pattern", ControllerButtons.None);
+
         public static readonly bool ShowUI = INIFile.ReadBoolean("UI", "Show", true);
         public static readonly string UIFontName = INIFile.ReadString("UI", "Font", "Stencil Std");
 
