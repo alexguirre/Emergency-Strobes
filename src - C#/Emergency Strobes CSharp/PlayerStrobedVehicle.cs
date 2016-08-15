@@ -2,7 +2,6 @@
 {
     // System
     using System;
-    using System.Windows.Forms;
     using System.Drawing;
     using System.Reflection;
 
@@ -110,7 +109,6 @@
 
                 if (active || manuallyActive)
                 {
-                    //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, Settings.Brightness);
                     NativeFunction.Natives.SetVehicleLights(Vehicle, 2);
                     shouldLeftHeadlightBeBroken = Vehicle.GetDeformationAt(leftHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
                     shouldRightHeadlightBeBroken = Vehicle.GetDeformationAt(rightHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
@@ -123,7 +121,6 @@
                         Vehicle.SetLeftHeadlightBroken(false);
                     if (!shouldRightHeadlightBeBroken)
                         Vehicle.SetRightHeadlightBroken(false);
-                    //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, 1.0f);
                     NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
                 }
             }
@@ -186,7 +183,6 @@
                 Vehicle.SetLeftHeadlightBroken(false);
             if (!shouldRightHeadlightBeBroken)
                 Vehicle.SetRightHeadlightBroken(false);
-            //NativeFunction.Natives.SetVehicleLightMultiplier(Vehicle, 1.0f);
             NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
         }
 
