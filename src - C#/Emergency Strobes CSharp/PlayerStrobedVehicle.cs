@@ -81,7 +81,7 @@
             Game.DisplaySubtitle($"~b~[Emergency Strobes]~s~ Switching to pattern ~y~{Pattern.Name}~s~");
             stagesCount = Pattern.Stages.Length;
             ChangeStage(0);
-            if (active || manuallyActive)
+            if ((active || manuallyActive) && !manualDisable)
                 UpdateVehicleToCurrentStage();
             if (Settings.ShowUI)
                 RecalculateUICurrentPatternText();
