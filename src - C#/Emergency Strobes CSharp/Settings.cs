@@ -28,6 +28,8 @@
         public static readonly bool ShowUI = INIFile.ReadBoolean("UI", "Show", true);
         public static readonly string UIFontName = INIFile.ReadString("UI", "Font", "Stencil Std");
 
+        public static readonly bool PlaySwitchSounds = INIFile.ReadBoolean("Sounds", "Switch Pattern", true);
+
         public static readonly SoundPlayer SwitchSound;
 
         static Settings()

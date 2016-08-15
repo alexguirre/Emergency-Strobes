@@ -86,7 +86,8 @@
                 UpdateVehicleToCurrentStage();
             if (Settings.ShowUI)
                 RecalculateUICurrentPatternText();
-            Settings.SwitchSound.Play();
+            if (Settings.PlaySwitchSounds)
+                Settings.SwitchSound.Play();
             ShowUI(12.5);
         }
 
