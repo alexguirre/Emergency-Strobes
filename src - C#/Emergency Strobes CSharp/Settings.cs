@@ -50,7 +50,7 @@
             {
                 Patterns = new Pattern[]
                 {
-                    new Pattern("Pattern1", new Pattern.Stage[]
+                    new Pattern("Left-Right Slow", new Pattern.Stage[]
                     {
                         new Pattern.Stage(PatternStageType.LeftOnly, 30),
                         new Pattern.Stage(PatternStageType.Both, 30),
@@ -58,7 +58,7 @@
                         new Pattern.Stage(PatternStageType.Both, 30),
                     }),
 
-                    new Pattern("Pattern2", new Pattern.Stage[]
+                    new Pattern("Left-Right Slow 2", new Pattern.Stage[]
                     {
                         new Pattern.Stage(PatternStageType.LeftOnly, 30),
                         new Pattern.Stage(PatternStageType.None, 20),
@@ -70,20 +70,40 @@
                         new Pattern.Stage(PatternStageType.Both, 40),
                     }),
 
-                    new Pattern("Pattern3", new Pattern.Stage[]
+                    new Pattern("Both Slow", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.None, 25),
-                        new Pattern.Stage(PatternStageType.Both, 30),
-                        new Pattern.Stage(PatternStageType.None, 25),
+                        new Pattern.Stage(PatternStageType.None, 30),
+                        new Pattern.Stage(PatternStageType.Both, 35),
+                        new Pattern.Stage(PatternStageType.None, 35),
                         new Pattern.Stage(PatternStageType.Both, 30),
                     }),
 
-                    new Pattern("Pattern4", new Pattern.Stage[]
+                    new Pattern("Both Fast", new Pattern.Stage[]
+                    {
+                        new Pattern.Stage(PatternStageType.None, 20),
+                        new Pattern.Stage(PatternStageType.Both, 10),
+                        new Pattern.Stage(PatternStageType.None, 20),
+                        new Pattern.Stage(PatternStageType.Both, 10),
+                    }),
+
+                    new Pattern("Left-Right Fast", new Pattern.Stage[]
                     {
                         new Pattern.Stage(PatternStageType.LeftOnly, 10),
                         new Pattern.Stage(PatternStageType.Both, 10),
                         new Pattern.Stage(PatternStageType.RightOnly, 10),
                         new Pattern.Stage(PatternStageType.Both, 10),
+                    }),
+
+                    new Pattern("Left-Right Fast 2", new Pattern.Stage[]
+                    {
+                        new Pattern.Stage(PatternStageType.LeftOnly, 11),
+                        new Pattern.Stage(PatternStageType.None, 8),
+                        new Pattern.Stage(PatternStageType.LeftOnly, 11),
+                        new Pattern.Stage(PatternStageType.Both, 16),
+                        new Pattern.Stage(PatternStageType.RightOnly, 11),
+                        new Pattern.Stage(PatternStageType.None, 8),
+                        new Pattern.Stage(PatternStageType.RightOnly, 11),
+                        new Pattern.Stage(PatternStageType.Both, 16),
                     }),
                 };
 
