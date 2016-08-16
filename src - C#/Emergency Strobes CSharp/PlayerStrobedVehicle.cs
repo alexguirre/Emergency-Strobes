@@ -245,8 +245,8 @@
         private double uiRemainingSeconds = 0.0f;
         private RectangleF uiBackgroundRectangle = new RectangleF(1920 - 360, 0, 280, 100).ConvertToCurrentCoordSystem();
         private Color uiBackgroundRectangleColor = Color.FromArgb(200, Color.Black);
-        private RectangleF uiLeftHeadlightRectangle = new RectangleF(1920 - 360 + 32, 32, 32, 32).ConvertToCurrentCoordSystem();
-        private RectangleF uiRightHeadlightRectangle = new RectangleF(1920 - 360 + 280 - 64, 32, 32, 32).ConvertToCurrentCoordSystem();
+        private RectangleF uiLeftHeadlightRectangle = new RectangleF(1920 - 360 + 14, 32, 32, 32).ConvertToCurrentCoordSystem();
+        private RectangleF uiRightHeadlightRectangle = new RectangleF(1920 - 360 + 280 - 32 - 14, 32, 32, 32).ConvertToCurrentCoordSystem();
 
         private Color onColor = Color.Orange;
         private Color offColor = Color.FromArgb(20, 20, 20);
@@ -260,7 +260,7 @@
         private PointF uiCurrentPatternPosition;
         private string uiCurrentPatternText;
         private string uiCurrentPatternFont = Settings.UIFontName;
-        private float uiCurrentPatternFontSize = 17.0f;
+        private float uiCurrentPatternFontSize = 16.175f;
 
         private PointF uiHelpTipPosition;
         private string uiHelpTipText = $"Press {Settings.SwitchPatternKey} to change the pattern";
