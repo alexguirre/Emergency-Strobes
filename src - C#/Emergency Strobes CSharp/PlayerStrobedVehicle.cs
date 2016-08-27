@@ -163,7 +163,6 @@
 
                     UpdateVehicleToCurrentStage();
                 }
-                Vehicle.SetBrakeLights(false);
             }
 
             if (Control.SwitchPattern.IsJustPressed())
