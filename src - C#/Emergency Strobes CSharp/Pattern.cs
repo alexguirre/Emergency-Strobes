@@ -21,21 +21,22 @@
         public struct Stage
         {
             public PatternStageType Type;
-            public int Ticks;
+            public int Milliseconds;
 
-            public Stage(PatternStageType type, int ticks)
+            public Stage(PatternStageType type, int milliseconds)
             {
                 Type = type;
-                Ticks = ticks;
+                Milliseconds = milliseconds;
             }
         }
     }
 
+    [Flags]
     public enum PatternStageType
     {
-        None,
-        Both,
-        LeftOnly,
-        RightOnly,
+        None = 0,
+        LeftHeadlight = 1 << 1,
+        RightHeadlight = 1 << 2,
+        BothHeadlights = LeftHeadlight | RightHeadlight,
     }
 }

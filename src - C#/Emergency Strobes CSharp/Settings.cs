@@ -52,58 +52,58 @@
                 {
                     new Pattern("Left-Right Slow", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.LeftOnly, 30),
-                        new Pattern.Stage(PatternStageType.Both, 30),
-                        new Pattern.Stage(PatternStageType.RightOnly, 30),
-                        new Pattern.Stage(PatternStageType.Both, 30),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 210),
+                        new Pattern.Stage(PatternStageType.RightHeadlight, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 210),
                     }),
 
                     new Pattern("Left-Right Slow 2", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.LeftOnly, 30),
-                        new Pattern.Stage(PatternStageType.None, 20),
-                        new Pattern.Stage(PatternStageType.LeftOnly, 30),
-                        new Pattern.Stage(PatternStageType.Both, 40),
-                        new Pattern.Stage(PatternStageType.RightOnly, 30),
-                        new Pattern.Stage(PatternStageType.None, 20),
-                        new Pattern.Stage(PatternStageType.RightOnly, 30),
-                        new Pattern.Stage(PatternStageType.Both, 40),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight, 210),
+                        new Pattern.Stage(PatternStageType.None, 180),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 260),
+                        new Pattern.Stage(PatternStageType.RightHeadlight, 210),
+                        new Pattern.Stage(PatternStageType.None, 180),
+                        new Pattern.Stage(PatternStageType.RightHeadlight, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 260),
                     }),
 
                     new Pattern("Both Slow", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.None, 30),
-                        new Pattern.Stage(PatternStageType.Both, 35),
-                        new Pattern.Stage(PatternStageType.None, 35),
-                        new Pattern.Stage(PatternStageType.Both, 30),
+                        new Pattern.Stage(PatternStageType.None, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 230),
+                        new Pattern.Stage(PatternStageType.None, 230),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 210),
                     }),
 
                     new Pattern("Both Fast", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.None, 20),
-                        new Pattern.Stage(PatternStageType.Both, 10),
-                        new Pattern.Stage(PatternStageType.None, 20),
-                        new Pattern.Stage(PatternStageType.Both, 10),
+                        new Pattern.Stage(PatternStageType.None, 160),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 110),
+                        new Pattern.Stage(PatternStageType.None, 160),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 110),
                     }),
 
                     new Pattern("Left-Right Fast", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.LeftOnly, 10),
-                        new Pattern.Stage(PatternStageType.Both, 10),
-                        new Pattern.Stage(PatternStageType.RightOnly, 10),
-                        new Pattern.Stage(PatternStageType.Both, 10),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight, 110),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 110),
+                        new Pattern.Stage(PatternStageType.RightHeadlight, 110),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 110),
                     }),
 
                     new Pattern("Left-Right Fast 2", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.LeftOnly, 11),
-                        new Pattern.Stage(PatternStageType.None, 8),
-                        new Pattern.Stage(PatternStageType.LeftOnly, 11),
-                        new Pattern.Stage(PatternStageType.Both, 16),
-                        new Pattern.Stage(PatternStageType.RightOnly, 11),
-                        new Pattern.Stage(PatternStageType.None, 8),
-                        new Pattern.Stage(PatternStageType.RightOnly, 11),
-                        new Pattern.Stage(PatternStageType.Both, 16),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight, 150),
+                        new Pattern.Stage(PatternStageType.None, 115),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight, 150),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 130),
+                        new Pattern.Stage(PatternStageType.RightHeadlight, 150),
+                        new Pattern.Stage(PatternStageType.None, 115),
+                        new Pattern.Stage(PatternStageType.RightHeadlight, 150),
+                        new Pattern.Stage(PatternStageType.BothHeadlights, 130),
                     }),
                 };
 
@@ -114,11 +114,13 @@
                 }
             }
 
-
-            if (File.Exists(@"Plugins\Emergency Strobes\switch.wav"))
-                SwitchSound = new SoundPlayer(@"Plugins\Emergency Strobes\switch.wav");
-            else
-                SwitchSound = new SoundPlayer(Emergency_Strobes.Properties.Resources._switch);
+            if (PlaySwitchSounds)
+            {
+                if (File.Exists(@"Plugins\Emergency Strobes\switch.wav"))
+                    SwitchSound = new SoundPlayer(@"Plugins\Emergency Strobes\switch.wav");
+                else
+                    SwitchSound = new SoundPlayer(Emergency_Strobes.Properties.Resources._switch);
+            }
         }
     }
 }

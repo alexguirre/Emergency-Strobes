@@ -17,6 +17,8 @@
         public static List<StrobedVehicle> StrobedVehicles = new List<StrobedVehicle>();
         public static PlayerStrobedVehicle PlayerStrobedVehicle;
 
+        public static uint GameTime;
+
         private static DateTime lastVehiclesWithSirenCheck = DateTime.UtcNow;
 
         public static void Main()
@@ -27,6 +29,8 @@
             while (true)
             {
                 GameFiber.Yield();
+
+                GameTime = Game.GameTime;
 
                 if (Settings.AIEnabled)
                 {

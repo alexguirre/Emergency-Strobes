@@ -15,7 +15,7 @@
 
         private Pattern.Stage currentStage;
         private int currentStageIndex;
-        private int currentStageRemainingTicks;
+        private uint currentStageStartTime;
 
         private bool active;
 
@@ -106,8 +106,6 @@
 
                     UpdateVehicleToCurrentStage();
                 }
-
-                currentStageRemainingTicks--;
             }
         }
 
@@ -124,7 +122,7 @@
         {
             currentStageIndex = newIndex;
             currentStage = Pattern.Stages[currentStageIndex];
-            currentStageRemainingTicks = currentStage.Ticks;
+            currentStageStartTime = EntryPoint.GameTime;
         }
 
         private void UpdateVehicleToCurrentStage()
@@ -135,18 +133,18 @@
                     Vehicle.SetLeftHeadlightBroken(true);
                     Vehicle.SetRightHeadlightBroken(true);
                     break;
-                case PatternStageType.Both:
+                case PatternStageType.BothHeadlights:
                     if (!shouldLeftHeadlightBeBroken)
                         Vehicle.SetLeftHeadlightBroken(false);
                     if (!shouldRightHeadlightBeBroken)
                         Vehicle.SetRightHeadlightBroken(false);
                     break;
-                case PatternStageType.LeftOnly:
+                case PatternStageType.LeftHeadlight:
                     Vehicle.SetLeftHeadlightBroken(true);
                     if (!shouldRightHeadlightBeBroken)
                         Vehicle.SetRightHeadlightBroken(false);
                     break;
-                case PatternStageType.RightOnly:
+                case PatternStageType.RightHeadlight:
                     if (!shouldLeftHeadlightBeBroken)
                         Vehicle.SetLeftHeadlightBroken(false);
                     Vehicle.SetRightHeadlightBroken(true);
@@ -156,7 +154,7 @@
 
         private bool NeedsToChangeStage()
         {
-            return currentStageRemainingTicks <= 0;
+            return EntryPoint.GameTime - currentStageStartTime > currentStage.Milliseconds;
         }
     }
 }

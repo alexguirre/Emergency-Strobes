@@ -22,7 +22,7 @@
 
         private Pattern.Stage currentStage;
         private int currentStageIndex;
-        private int currentStageRemainingTicks;
+        private uint currentStageStartTime;
 
         private bool active;
         private bool manuallyActive;
@@ -163,8 +163,7 @@
 
                     UpdateVehicleToCurrentStage();
                 }
-
-                currentStageRemainingTicks--;
+                Vehicle.SetBrakeLights(false);
             }
 
             if (Control.SwitchPattern.IsJustPressed())
@@ -197,7 +196,7 @@
         {
             currentStageIndex = newIndex;
             currentStage = Pattern.Stages[currentStageIndex];
-            currentStageRemainingTicks = currentStage.Ticks;
+            currentStageStartTime = EntryPoint.GameTime;
         }
 
         private void UpdateVehicleToCurrentStage()
@@ -208,18 +207,18 @@
                     Vehicle.SetLeftHeadlightBroken(true);
                     Vehicle.SetRightHeadlightBroken(true);
                     break;
-                case PatternStageType.Both:
+                case PatternStageType.BothHeadlights:
                     if (!shouldLeftHeadlightBeBroken)
                         Vehicle.SetLeftHeadlightBroken(false);
                     if (!shouldRightHeadlightBeBroken)
                         Vehicle.SetRightHeadlightBroken(false);
                     break;
-                case PatternStageType.LeftOnly:
+                case PatternStageType.LeftHeadlight:
                     Vehicle.SetLeftHeadlightBroken(true);
                     if (!shouldRightHeadlightBeBroken)
                         Vehicle.SetRightHeadlightBroken(false);
                     break;
-                case PatternStageType.RightOnly:
+                case PatternStageType.RightHeadlight:
                     if (!shouldLeftHeadlightBeBroken)
                         Vehicle.SetLeftHeadlightBroken(false);
                     Vehicle.SetRightHeadlightBroken(true);
@@ -229,7 +228,7 @@
 
         private bool NeedsToChangeStage()
         {
-            return currentStageRemainingTicks <= 0;
+            return EntryPoint.GameTime - currentStageStartTime > currentStage.Milliseconds;
         }
 
         #region UI
@@ -309,15 +308,15 @@
                             g.DrawRectangle(uiLeftHeadlightRectangle, offColor);
                             g.DrawRectangle(uiRightHeadlightRectangle, offColor);
                             break;
-                        case PatternStageType.Both:
+                        case PatternStageType.BothHeadlights:
                             g.DrawRectangle(uiLeftHeadlightRectangle, onColor);
                             g.DrawRectangle(uiRightHeadlightRectangle, onColor);
                             break;
-                        case PatternStageType.LeftOnly:
+                        case PatternStageType.LeftHeadlight:
                             g.DrawRectangle(uiLeftHeadlightRectangle, onColor);
                             g.DrawRectangle(uiRightHeadlightRectangle, offColor);
                             break;
-                        case PatternStageType.RightOnly:
+                        case PatternStageType.RightHeadlight:
                             g.DrawRectangle(uiLeftHeadlightRectangle, offColor);
                             g.DrawRectangle(uiRightHeadlightRectangle, onColor);
                             break;
