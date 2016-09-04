@@ -21,9 +21,9 @@
         public struct Stage
         {
             public PatternStageType Type;
-            public int Milliseconds;
+            public uint Milliseconds;
 
-            public Stage(PatternStageType type, int milliseconds)
+            public Stage(PatternStageType type, uint milliseconds)
             {
                 Type = type;
                 Milliseconds = milliseconds;

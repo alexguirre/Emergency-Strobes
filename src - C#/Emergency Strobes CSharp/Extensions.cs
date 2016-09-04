@@ -60,5 +60,16 @@
         {
             return NativeFunction.Natives.GetVehicleDeformationAtPos<Vector3>(v, offset.X, offset.Y, offset.Z);
         }
+
+        //public static unsafe void SetLightMultiplier(this Vehicle v, float multiplier)
+        //{
+        //    //NativeFunction.Natives.SetVehicleLightMultiplier(v, multiplier);
+        //    *(float*)(v.MemoryAddress + 0x090C) = multiplier;
+        //}
+
+        //public static unsafe float GetLightMultiplier(this Vehicle v)
+        //{
+        //    return *(float*)(v.MemoryAddress + 0x090C);
+        //}
     }
 }

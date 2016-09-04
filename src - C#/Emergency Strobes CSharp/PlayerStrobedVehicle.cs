@@ -122,6 +122,7 @@
                     if (!shouldRightHeadlightBeBroken)
                         Vehicle.SetRightHeadlightBroken(false);
                     NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
+                    //Vehicle.SetLightMultiplier(1.0f);
                 }
             }
 
@@ -138,6 +139,7 @@
                     if (!shouldRightHeadlightBeBroken)
                         Vehicle.SetRightHeadlightBroken(false);
                     NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
+                    //Vehicle.SetLightMultiplier(1.0f);
                 }
                 else
                 {
@@ -182,6 +184,7 @@
             if (!shouldRightHeadlightBeBroken)
                 Vehicle.SetRightHeadlightBroken(false);
             NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
+            //Vehicle.SetLightMultiplier(1.0f);
         }
 
         public void CleanUp()
