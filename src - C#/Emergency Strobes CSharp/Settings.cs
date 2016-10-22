@@ -21,6 +21,8 @@
         public static readonly bool AIEnabled = INIFile.ReadBoolean("General", "AI", true);
         public static readonly bool PlayerEnabled = INIFile.ReadBoolean("General", "Player", true);
 
+        public static readonly float BrightnessMultiplier = INIFile.ReadSingle("General", "Brightness Multiplier", 6);
+
         public static readonly Keys ModifierKey = INIFile.ReadEnum("Keys", "Modifier", Keys.None);
         public static readonly Keys ToggleKey = INIFile.ReadEnum("Keys", "Toggle", Keys.T);
         public static readonly Keys SwitchPatternKey = INIFile.ReadEnum("Keys", "Switch Pattern", Keys.F8);
@@ -50,12 +52,73 @@
             {
                 Patterns = new Pattern[]
                 {
+#if DEBUG
+                    new Pattern("Test All", new Pattern.Stage[]
+                    {
+                        new Pattern.Stage(PatternStageType.All, 25),
+                        new Pattern.Stage(PatternStageType.None, 25),
+                    }),
+
+                    new Pattern("Test", new Pattern.Stage[]
+                    {
+                        new Pattern.Stage(PatternStageType.LeftTailLight | PatternStageType.LeftBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.RightTailLight | PatternStageType.RightBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.None, 200),
+                        new Pattern.Stage(PatternStageType.LeftTailLight | PatternStageType.LeftBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.RightTailLight | PatternStageType.RightBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.None, 200),
+                        new Pattern.Stage(PatternStageType.LeftTailLight | PatternStageType.LeftBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.RightTailLight | PatternStageType.RightBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.None, 200),
+                    }),
+
+                    new Pattern("Test 2", new Pattern.Stage[]
+                    {
+                        new Pattern.Stage(PatternStageType.LeftTailLight, 175),
+                        new Pattern.Stage(PatternStageType.RightBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.None, 200),
+                        new Pattern.Stage(PatternStageType.LeftBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.RightTailLight, 175),
+                        new Pattern.Stage(PatternStageType.None, 200),
+                        new Pattern.Stage(PatternStageType.LeftTailLight, 175),
+                        new Pattern.Stage(PatternStageType.RightBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.None, 200),
+                        new Pattern.Stage(PatternStageType.LeftBrakeLight, 175),
+                        new Pattern.Stage(PatternStageType.RightTailLight, 175),
+                        new Pattern.Stage(PatternStageType.None, 200),
+                    }),
+
+                    new Pattern("Testing TailLight", new Pattern.Stage[]
+                    {
+                        new Pattern.Stage(PatternStageType.LeftTailLight, 500),
+                        new Pattern.Stage(PatternStageType.None, 500),
+                        new Pattern.Stage(PatternStageType.RightTailLight, 500),
+                        new Pattern.Stage(PatternStageType.None, 500),
+                    }),
+
+                    new Pattern("Testing BrakeLight", new Pattern.Stage[]
+                    {
+                        new Pattern.Stage(PatternStageType.LeftBrakeLight, 500),
+                        new Pattern.Stage(PatternStageType.None, 500),
+                        new Pattern.Stage(PatternStageType.RightBrakeLight, 500),
+                        new Pattern.Stage(PatternStageType.None, 500),
+                    }),
+
+                    new Pattern("Testing BrakeLight/TailLight", new Pattern.Stage[]
+                    {
+                        new Pattern.Stage(PatternStageType.LeftBrakeLight | PatternStageType.LeftTailLight, 500),
+                        new Pattern.Stage(PatternStageType.None, 500),
+                        new Pattern.Stage(PatternStageType.RightBrakeLight | PatternStageType.RightTailLight, 500),
+                        new Pattern.Stage(PatternStageType.None, 500),
+                    }),
+#endif
+
                     new Pattern("Left-Right Slow", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.LeftHeadlight, 210),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 210),
-                        new Pattern.Stage(PatternStageType.RightHeadlight, 210),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 210),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight | PatternStageType.LeftBrakeLight | PatternStageType.LeftTailLight, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights | PatternStageType.BothTailLights, 210),
+                        new Pattern.Stage(PatternStageType.RightHeadlight | PatternStageType.RightBrakeLight | PatternStageType.RightTailLight, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights | PatternStageType.BothTailLights, 210),
                     }),
 
                     new Pattern("Left-Right Slow 2", new Pattern.Stage[]

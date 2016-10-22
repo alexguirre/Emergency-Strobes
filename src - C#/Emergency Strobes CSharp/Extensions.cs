@@ -7,44 +7,45 @@
     using Rage;
     using Rage.Native;
 
+    [System.Flags]
+    internal enum VehicleLight
+    {
+        LeftHeadlight = 1 << 0,
+        RightHeadlight = 1 << 1,
+
+        LeftTailLight = 1 << 2,
+        RightTailLight = 1 << 3,
+
+        LeftFrontIndicatorLight = 1 << 4,
+        RightFrontIndicatorLight = 1 << 5,
+        LeftRearIndicatorLight = 1 << 6,
+        RightRearIndicatorLight = 1 << 7,
+
+        LeftBrakeLight = 1 << 8,
+        RightBrakeLight = 1 << 9,
+
+        All = LeftHeadlight | RightHeadlight | LeftTailLight | RightTailLight | LeftBrakeLight | RightBrakeLight | LeftFrontIndicatorLight | RightFrontIndicatorLight | LeftRearIndicatorLight | RightRearIndicatorLight,
+    }
+
     internal static class Extensions
     {
-        public static unsafe void SetLeftHeadlightBroken(this Vehicle v, bool broken)
+        public static unsafe void SetLightBroken(this Vehicle v, VehicleLight light, bool broken)
         {
-            byte mask = 1 << 0;
+            int mask = (int)light;
 
             if (broken)
             {
-                *(int*)(v.MemoryAddress.ToInt64() + 1916) |= mask;
+                *(int*)(v.MemoryAddress.ToInt64() + 0x079C) |= mask;
             }
             else
             {
-                *(int*)(v.MemoryAddress.ToInt64() + 1916) &= ~mask;
+                *(int*)(v.MemoryAddress.ToInt64() + 0x079C) &= ~mask;
             }
         }
 
-        public static unsafe void SetRightHeadlightBroken(this Vehicle v, bool broken)
+        public static unsafe bool IsLightBroken(this Vehicle v, VehicleLight light)
         {
-            byte mask = 1 << 1;
-
-            if (broken)
-            {
-                *(int*)(v.MemoryAddress.ToInt64() + 1916) |= mask;
-            }
-            else
-            {
-                *(int*)(v.MemoryAddress.ToInt64() + 1916) &= ~mask;
-            }
-        }
-
-        public static bool IsLeftHeadlightBroken(this Vehicle v)
-        {
-            return NativeFunction.Natives.GetIsLeftVehicleHeadlightDamaged<bool>(v);
-        }
-
-        public static bool IsRightHeadlightBroken(this Vehicle v)
-        {
-            return NativeFunction.Natives.GetIsRightVehicleHeadlightDamaged<bool>(v);
+            return (*(int*)(v.MemoryAddress.ToInt64() + 0x079C) & (int)light) == (int)light;
         }
 
         public static RectangleF ConvertToCurrentCoordSystem(this RectangleF rectangle)
@@ -61,15 +62,37 @@
             return NativeFunction.Natives.GetVehicleDeformationAtPos<Vector3>(v, offset.X, offset.Y, offset.Z);
         }
 
-        //public static unsafe void SetLightMultiplier(this Vehicle v, float multiplier)
-        //{
-        //    //NativeFunction.Natives.SetVehicleLightMultiplier(v, multiplier);
-        //    *(float*)(v.MemoryAddress + 0x090C) = multiplier;
-        //}
+        public static unsafe void SetLightMultiplier(this Vehicle v, float multiplier)
+        {
+            //NativeFunction.Natives.SetVehicleLightMultiplier(v, multiplier);
+            *(float*)(v.MemoryAddress + 0x092C) = multiplier;
+        }
 
-        //public static unsafe float GetLightMultiplier(this Vehicle v)
-        //{
-        //    return *(float*)(v.MemoryAddress + 0x090C);
-        //}
+        public static unsafe float GetLightMultiplier(this Vehicle v)
+        {
+            return *(float*)(v.MemoryAddress + 0x092C);
+        }
+
+        public static unsafe void SetBrokenLightsRenderedAsBroken(this Vehicle v, bool broken)
+        {
+            *(short*)(v.MemoryAddress + 0x07A4) = (short)(broken ? 1 : 0);
+        }
+
+        public static unsafe bool AreBrokenLightsRenderedAsBroken(this Vehicle v)
+        {
+            short value = *(short*)(v.MemoryAddress + 0x07A4);
+            return value == 1;
+        }
+
+        public static unsafe void SetBrokenSirenLightsRenderedAsBroken(this Vehicle v, bool broken)
+        {
+            *(short*)(v.MemoryAddress + 0x07A5) = (short)(broken ? 1 : 0);
+        }
+
+        public static unsafe bool AreBrokenSirenLightsRenderedAsBroken(this Vehicle v)
+        {
+            short value = *(short*)(v.MemoryAddress + 0x07A5);
+            return value == 1;
+        }
     }
 }

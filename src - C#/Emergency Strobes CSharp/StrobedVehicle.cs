@@ -1,26 +1,52 @@
 ﻿namespace Emergency_Strobes
 {
+    // System
+    using System;
+
     // RPH
     using Rage;
     using Rage.Native;
 
-    internal class StrobedVehicle
+    internal class StrobedVehicle : IDisposable
     {
-        public const float HeadlightsDeformationThreshold = 0.0022225f;
+        protected struct StageData
+        {
+            public Pattern.Stage Stage;
+            public int Index;
+            public uint StartTime;
+            public bool ShouldEnableBrakeLights;
+        }
 
         public readonly Vehicle Vehicle;
-        public Pattern Pattern;
+        protected Pattern pattern;
+        public virtual Pattern Pattern
+        {
+            get { return pattern; }
+            set
+            {
+                pattern = value;
+                stagesCount = Pattern.Stages.Length;
+                ChangeStage(0);
+                if (ShouldDoActiveUpdate())
+                    UpdateVehicleToCurrentStage();
+            }
+        }
 
-        private int stagesCount;
+        public StrobedLight LeftHeadlight { get; }
+        public StrobedLight RightHeadlight { get; }
 
-        private Pattern.Stage currentStage;
-        private int currentStageIndex;
-        private uint currentStageStartTime;
+        public StrobedLight LeftTailLight { get; }
+        public StrobedLight RightTailLight { get; }
 
-        private bool active;
+        public StrobedLight LeftBrakeLight { get; }
+        public StrobedLight RightBrakeLight { get; }
 
-        private bool shouldLeftHeadlightBeBroken, shouldRightHeadlightBeBroken;
-        private Vector3 leftHeadlightOffset, rightHeadlightOffset;
+        protected int stagesCount;
+
+        protected StageData currentStageData;
+
+        protected bool prevActive;
+        protected bool active;
 
         public StrobedVehicle(Vehicle veh, Pattern pattern)
         {
@@ -28,135 +54,179 @@
             Pattern = pattern;
             stagesCount = Pattern.Stages.Length;
 
-            Vector3 headlightLeftPos = veh.HasBone("headlight_l") ? veh.GetBonePosition("headlight_l") : Vector3.Zero;
-            Vector3 headlightRightPos = veh.HasBone("headlight_r") ? veh.GetBonePosition("headlight_r") : Vector3.Zero;
+            LeftHeadlight = new StrobedLight(this, VehicleLight.LeftHeadlight);
+            RightHeadlight = new StrobedLight(this, VehicleLight.RightHeadlight);
 
-            // if a headlight is broken it returns position Vector3 around Vector3.Zero, if so get an approximate offset
-            if (headlightLeftPos.DistanceTo(Vector3.Zero) < 1.25f)
-            {
-                Vector3 leftPosOffset = veh.GetPositionOffset(veh.LeftPosition);
-                Vector3 frontPosOffset = veh.GetPositionOffset(veh.FrontPosition);
+            LeftTailLight = new StrobedLight(this, VehicleLight.LeftTailLight);
+            RightTailLight = new StrobedLight(this, VehicleLight.RightTailLight);
 
-                leftHeadlightOffset = new Vector3(leftPosOffset.X, frontPosOffset.Y, frontPosOffset.Z);
-            }
-            else
-            {
-                leftHeadlightOffset = veh.GetPositionOffset(headlightLeftPos);
-            }
+            LeftBrakeLight = new StrobedLight(this, VehicleLight.LeftBrakeLight);
+            RightBrakeLight = new StrobedLight(this, VehicleLight.RightBrakeLight);
 
-            if (headlightRightPos.DistanceTo(Vector3.Zero) < 1.25f)
-            {
-                Vector3 rightPosOffset = veh.GetPositionOffset(veh.RightPosition);
-                Vector3 frontPosOffset = veh.GetPositionOffset(veh.FrontPosition);
-
-                rightHeadlightOffset = new Vector3(rightPosOffset.X, frontPosOffset.Y, frontPosOffset.Z);
-            }
-            else
-            {
-                rightHeadlightOffset = veh.GetPositionOffset(headlightRightPos);
-            }
+            Vehicle.EmergencyLightingOverride = Vehicle.DefaultEmergencyLighting.Clone();
+            Vehicle.EmergencyLightingOverride.RightHeadLightSequenceRaw = 0;
+            Vehicle.EmergencyLightingOverride.RightTailLightSequenceRaw = 0;
+            Vehicle.EmergencyLightingOverride.LeftHeadLightSequenceRaw = 0;
+            Vehicle.EmergencyLightingOverride.LeftTailLightSequenceRaw = 0;
         }
 
-        public void ChangePattern(Pattern newPattern)
+        public virtual void Update()
         {
-            Pattern = newPattern;
-            stagesCount = Pattern.Stages.Length;
-            ChangeStage(0);
-            if (active)
-                UpdateVehicleToCurrentStage();
-        }
-
-        public void Update()
-        {
-            bool prevActive = active;
+            prevActive = active;
             active = Vehicle.IsSirenOn;
 
             if (active != prevActive)
             {
-                if (active)
-                {
-                    NativeFunction.Natives.SetVehicleLights(Vehicle, 2);
-                    shouldLeftHeadlightBeBroken = Vehicle.GetDeformationAt(leftHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
-                    shouldRightHeadlightBeBroken = Vehicle.GetDeformationAt(rightHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
-                    UpdateVehicleToCurrentStage();
-                }
-                else
-                {
-                    if(!shouldLeftHeadlightBeBroken)
-                        Vehicle.SetLeftHeadlightBroken(false);
-                    if (!shouldRightHeadlightBeBroken)
-                        Vehicle.SetRightHeadlightBroken(false);
-                    NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
-                    //Vehicle.SetLightMultiplier(1.0f);
-                }
-                
+                SetActive(active);
             }
 
-            if (active)
+            if (ShouldDoActiveUpdate())
             {
-                if (NeedsToChangeStage())
-                {
-                    shouldLeftHeadlightBeBroken = Vehicle.GetDeformationAt(leftHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
-                    shouldRightHeadlightBeBroken = Vehicle.GetDeformationAt(rightHeadlightOffset).LengthSquared() > HeadlightsDeformationThreshold;
-
-                    int newStageIndex = currentStageIndex + 1;
-                    if (newStageIndex >= stagesCount)
-                        newStageIndex = 0;
-
-                    ChangeStage(newStageIndex);
-
-                    UpdateVehicleToCurrentStage();
-                }
+                ActiveUpdate();
             }
         }
 
         public void ResetVehicleLights()
         {
-            if (!shouldLeftHeadlightBeBroken)
-                Vehicle.SetLeftHeadlightBroken(false);
-            if (!shouldRightHeadlightBeBroken)
-                Vehicle.SetRightHeadlightBroken(false);
-            NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
-            //Vehicle.SetLightMultiplier(1.0f);
-        }
-
-        private void ChangeStage(int newIndex)
-        {
-            currentStageIndex = newIndex;
-            currentStage = Pattern.Stages[currentStageIndex];
-            currentStageStartTime = EntryPoint.GameTime;
-        }
-
-        private void UpdateVehicleToCurrentStage()
-        {
-            switch (Pattern.Stages[currentStageIndex].Type)
+            if (Vehicle)
             {
-                case PatternStageType.None:
-                    Vehicle.SetLeftHeadlightBroken(true);
-                    Vehicle.SetRightHeadlightBroken(true);
-                    break;
-                case PatternStageType.BothHeadlights:
-                    if (!shouldLeftHeadlightBeBroken)
-                        Vehicle.SetLeftHeadlightBroken(false);
-                    if (!shouldRightHeadlightBeBroken)
-                        Vehicle.SetRightHeadlightBroken(false);
-                    break;
-                case PatternStageType.LeftHeadlight:
-                    Vehicle.SetLeftHeadlightBroken(true);
-                    if (!shouldRightHeadlightBeBroken)
-                        Vehicle.SetRightHeadlightBroken(false);
-                    break;
-                case PatternStageType.RightHeadlight:
-                    if (!shouldLeftHeadlightBeBroken)
-                        Vehicle.SetLeftHeadlightBroken(false);
-                    Vehicle.SetRightHeadlightBroken(true);
-                    break;
+                LeftHeadlight.SetActive(true);
+                RightHeadlight.SetActive(true);
+
+                LeftTailLight.SetActive(true);
+                RightTailLight.SetActive(true);
+
+                LeftBrakeLight.SetActive(true);
+                RightBrakeLight.SetActive(true);
+
+                NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
+                Vehicle.SetLightMultiplier(1.0f);
             }
         }
 
-        private bool NeedsToChangeStage()
+        protected virtual void SetActive(bool activate)
         {
-            return EntryPoint.GameTime - currentStageStartTime > currentStage.Milliseconds;
+            if (activate)
+            {
+                NativeFunction.Natives.SetVehicleLights(Vehicle, 2);
+                Vehicle.SetLightMultiplier(Settings.BrightnessMultiplier);
+                CheckLightsDeformation();
+                UpdateVehicleToCurrentStage();
+            }
+            else
+            {
+                ResetVehicleLights();
+            }
+        }
+
+        protected virtual void ActiveUpdate()
+        {
+            if (NeedsToChangeStage())
+            {
+                CheckLightsDeformation();
+
+                int newStageIndex = currentStageData.Index + 1;
+                if (newStageIndex >= stagesCount)
+                    newStageIndex = 0;
+
+                ChangeStage(newStageIndex);
+
+                UpdateVehicleToCurrentStage();
+            }
+
+            if (Vehicle.AreBrokenLightsRenderedAsBroken())
+                Vehicle.SetBrokenLightsRenderedAsBroken(false);
+
+            if (currentStageData.ShouldEnableBrakeLights)
+            {
+                NativeFunction.Natives.SetVehicleBrakeLights(Vehicle, true);
+            }
+
+
+            //Vehicle.IsEngineOn = true; // sometimes the lights turn off when exiting the vehicle, this fixes it
+        }
+
+        protected virtual bool ShouldDoActiveUpdate()
+        {
+            return active;
+        }
+
+        protected void ChangeStage(int newIndex)
+        {
+            Pattern.Stage currentStage = Pattern.Stages[newIndex];
+            currentStageData = new StageData()
+            {
+                Stage = currentStage,
+                Index = newIndex,
+                StartTime = Plugin.GameTime,
+                ShouldEnableBrakeLights = ShouldEnableVehicleBrakeLightsForStage(currentStage)
+            };
+        }
+
+        protected void UpdateVehicleToCurrentStage()
+        {
+            PatternStageType type = currentStageData.Stage.Type;
+
+            if (type == PatternStageType.None)
+            {
+                LeftHeadlight.SetActive(false);
+                RightHeadlight.SetActive(false);
+
+                LeftTailLight.SetActive(false);
+                RightTailLight.SetActive(false);
+
+                LeftBrakeLight.SetActive(false);
+                RightBrakeLight.SetActive(false);
+                return;
+            }
+
+
+            LeftHeadlight.SetActive((type & PatternStageType.LeftHeadlight) == PatternStageType.LeftHeadlight);
+            RightHeadlight.SetActive((type & PatternStageType.RightHeadlight) == PatternStageType.RightHeadlight);
+
+            LeftTailLight.SetActive((type & PatternStageType.LeftTailLight) == PatternStageType.LeftTailLight);
+            RightTailLight.SetActive((type & PatternStageType.RightTailLight) == PatternStageType.RightTailLight);
+
+            LeftBrakeLight.SetActive((type & PatternStageType.LeftBrakeLight) == PatternStageType.LeftBrakeLight);
+            RightBrakeLight.SetActive((type & PatternStageType.RightBrakeLight) == PatternStageType.RightBrakeLight);
+        }
+
+        protected bool NeedsToChangeStage()
+        {
+            return Plugin.GameTime - currentStageData.StartTime > currentStageData.Stage.Milliseconds;
+        }
+
+        protected void CheckLightsDeformation()
+        {
+            LeftHeadlight.CheckLightDeformation();
+            RightHeadlight.CheckLightDeformation();
+
+            LeftTailLight.CheckLightDeformation();
+            RightTailLight.CheckLightDeformation();
+
+            LeftBrakeLight.CheckLightDeformation();
+            RightBrakeLight.CheckLightDeformation();
+        }
+
+        public virtual void Dispose()
+        {
+            if (Vehicle)
+            {
+                ResetVehicleLights();
+                Vehicle.EmergencyLightingOverride = null;
+            }
+        }
+
+
+        private static bool ShouldEnableVehicleBrakeLightsForStage(Pattern.Stage stage)
+        {
+            PatternStageType t = stage.Type;
+            if ((t & PatternStageType.LeftTailLight) == PatternStageType.LeftTailLight ||
+               (t & PatternStageType.RightTailLight) == PatternStageType.RightTailLight ||
+               (t & PatternStageType.LeftBrakeLight) == PatternStageType.LeftBrakeLight ||
+               (t & PatternStageType.RightBrakeLight) == PatternStageType.RightBrakeLight)
+                return true;
+            return false;
         }
     }
 }

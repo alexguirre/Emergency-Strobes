@@ -35,8 +35,20 @@
     public enum PatternStageType
     {
         None = 0,
+
         LeftHeadlight = 1 << 1,
         RightHeadlight = 1 << 2,
+
+        LeftTailLight = 1 << 3,
+        RightTailLight = 1 << 4,
+
+        LeftBrakeLight = 1 << 5,
+        RightBrakeLight = 1 << 6,
+
         BothHeadlights = LeftHeadlight | RightHeadlight,
+        BothTailLights = LeftTailLight | RightTailLight,
+        BothBrakeLights = LeftBrakeLight | RightBrakeLight,
+
+        All = BothHeadlights | BothTailLights | BothBrakeLights,
     }
 }
