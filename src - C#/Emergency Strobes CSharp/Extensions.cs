@@ -75,23 +75,23 @@
 
         public static unsafe void SetBrokenLightsRenderedAsBroken(this Vehicle v, bool broken)
         {
-            *(short*)(v.MemoryAddress + 0x07A4) = (short)(broken ? 1 : 0);
+            *(byte*)(v.MemoryAddress + 0x07A4) = (byte)(broken ? 1 : 0);
         }
 
         public static unsafe bool AreBrokenLightsRenderedAsBroken(this Vehicle v)
         {
-            short value = *(short*)(v.MemoryAddress + 0x07A4);
+            byte value = *(byte*)(v.MemoryAddress + 0x07A4);
             return value == 1;
         }
 
         public static unsafe void SetBrokenSirenLightsRenderedAsBroken(this Vehicle v, bool broken)
         {
-            *(short*)(v.MemoryAddress + 0x07A5) = (short)(broken ? 1 : 0);
+            *(byte*)(v.MemoryAddress + 0x07A5) = (byte)(broken ? 1 : 0);
         }
 
         public static unsafe bool AreBrokenSirenLightsRenderedAsBroken(this Vehicle v)
         {
-            short value = *(short*)(v.MemoryAddress + 0x07A5);
+            byte value = *(byte*)(v.MemoryAddress + 0x07A5);
             return value == 1;
         }
     }
