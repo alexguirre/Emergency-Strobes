@@ -123,50 +123,50 @@
 
                     new Pattern("Left-Right Slow 2", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.LeftHeadlight, 210),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight | PatternStageType.LeftBrakeLight | PatternStageType.LeftTailLight, 210),
                         new Pattern.Stage(PatternStageType.None, 180),
-                        new Pattern.Stage(PatternStageType.LeftHeadlight, 210),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 260),
-                        new Pattern.Stage(PatternStageType.RightHeadlight, 210),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight | PatternStageType.LeftBrakeLight| PatternStageType.LeftTailLight, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights | PatternStageType.BothTailLights, 260),
+                        new Pattern.Stage(PatternStageType.RightHeadlight | PatternStageType.RightBrakeLight | PatternStageType.RightTailLight, 210),
                         new Pattern.Stage(PatternStageType.None, 180),
-                        new Pattern.Stage(PatternStageType.RightHeadlight, 210),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 260),
+                        new Pattern.Stage(PatternStageType.RightHeadlight | PatternStageType.RightBrakeLight | PatternStageType.RightTailLight, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights | PatternStageType.BothTailLights, 260),
                     }),
 
                     new Pattern("Both Slow", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.None, 210),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 230),
                         new Pattern.Stage(PatternStageType.None, 230),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 210),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights, 230),
+                        new Pattern.Stage(PatternStageType.None, 230),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothTailLights, 230),
                     }),
 
                     new Pattern("Both Fast", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.None, 160),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 110),
-                        new Pattern.Stage(PatternStageType.None, 160),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 110),
+                        new Pattern.Stage(PatternStageType.None, 135),
+                        new Pattern.Stage(PatternStageType.BothHeadlights| PatternStageType.BothBrakeLights, 140),
+                        new Pattern.Stage(PatternStageType.None, 135),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothTailLights, 140),
                     }),
 
                     new Pattern("Left-Right Fast", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.LeftHeadlight, 110),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 110),
-                        new Pattern.Stage(PatternStageType.RightHeadlight, 110),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 110),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight | PatternStageType.LeftBrakeLight | PatternStageType.LeftTailLight , 110),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights | PatternStageType.BothTailLights, 110),
+                        new Pattern.Stage(PatternStageType.RightHeadlight | PatternStageType.RightBrakeLight | PatternStageType.RightTailLight, 110),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights | PatternStageType.BothTailLights, 110),
                     }),
 
                     new Pattern("Left-Right Fast 2", new Pattern.Stage[]
                     {
-                        new Pattern.Stage(PatternStageType.LeftHeadlight, 150),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight | PatternStageType.LeftBrakeLight | PatternStageType.LeftTailLight, 150),
                         new Pattern.Stage(PatternStageType.None, 115),
-                        new Pattern.Stage(PatternStageType.LeftHeadlight, 150),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 130),
-                        new Pattern.Stage(PatternStageType.RightHeadlight, 150),
+                        new Pattern.Stage(PatternStageType.LeftHeadlight | PatternStageType.LeftBrakeLight| PatternStageType.LeftTailLight, 150),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights | PatternStageType.BothTailLights, 130),
+                        new Pattern.Stage(PatternStageType.RightHeadlight | PatternStageType.RightBrakeLight | PatternStageType.RightTailLight, 150),
                         new Pattern.Stage(PatternStageType.None, 115),
-                        new Pattern.Stage(PatternStageType.RightHeadlight, 150),
-                        new Pattern.Stage(PatternStageType.BothHeadlights, 130),
+                        new Pattern.Stage(PatternStageType.RightHeadlight | PatternStageType.RightBrakeLight | PatternStageType.RightTailLight, 150),
+                        new Pattern.Stage(PatternStageType.BothHeadlights | PatternStageType.BothBrakeLights | PatternStageType.BothTailLights, 130),
                     }),
                 };
 
