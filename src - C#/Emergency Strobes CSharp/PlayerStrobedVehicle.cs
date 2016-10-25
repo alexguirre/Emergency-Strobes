@@ -2,7 +2,6 @@
 {
     // System
     using System;
-    using System.Linq;
 
     // RPH
     using Rage;

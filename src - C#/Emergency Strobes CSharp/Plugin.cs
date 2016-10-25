@@ -7,7 +7,6 @@
 
     // RPH
     using Rage;
-    using Rage.Native;
 
     internal static class Plugin
     {
