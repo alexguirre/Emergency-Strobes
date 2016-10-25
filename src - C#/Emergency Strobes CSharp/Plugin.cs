@@ -10,7 +10,7 @@
 
     internal static class Plugin
     {
-        private const float ActionRadius = 275.0f; // the radius from the player where it will get the vehicles to make strobed
+        private const float ActionRadius = 225.0f; // the radius from the player where it will get the vehicles to make strobed
         private const float ActionRadiusSqr = ActionRadius * ActionRadius;
 
         public static readonly Random Random = new Random();
@@ -20,9 +20,10 @@
 
         public static uint GameTime;
 
-        private static DateTime lastVehiclesWithSirenCheckTime = DateTime.UtcNow;
+        private static DateTime lastVehiclesCheckTime = DateTime.UtcNow;
 
         private static Ped playerPed;
+        private static Vector3 playerPos;
 
         private static void Main()
         {
@@ -35,26 +36,26 @@
 
                 GameTime = Game.GameTime;
                 playerPed = Game.LocalPlayer.Character;
+                playerPos = playerPed.Position;
 
                 if (Settings.AIEnabled)
                 {
-                    if ((DateTime.UtcNow - lastVehiclesWithSirenCheckTime).TotalSeconds > 1.5)
+                    if ((DateTime.UtcNow - lastVehiclesCheckTime).TotalSeconds > 1.5)
                     {
-                        Vehicle[] vehs = World.GetAllVehicles();
+                        Entity[] vehs = World.GetEntities(playerPos, ActionRadius, GetEntitiesFlags.ConsiderAllVehicles);
 
                         for (int i = 0; i < vehs.Length; i++)
                         {
-                            Vehicle v = vehs[i];
+                            Vehicle v = (Vehicle)vehs[i];
                             if (CanBeStrobedVehicle(v))
                             {
                                 StrobedVehicles.Add(new StrobedVehicle(v, Settings.Patterns[Random.Next(Settings.Patterns.Length)]));
                             }
                         }
-                        lastVehiclesWithSirenCheckTime = DateTime.UtcNow;
+                        lastVehiclesCheckTime = DateTime.UtcNow;
                     }
 
-
-                    Vector3 playerPos = playerPed.Position;
+                    
                     for (int i = StrobedVehicles.Count - 1; i >= 0; i--)
                     {
                         StrobedVehicle v = StrobedVehicles[i];
