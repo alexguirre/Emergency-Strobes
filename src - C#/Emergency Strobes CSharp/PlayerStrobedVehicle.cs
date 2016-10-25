@@ -76,10 +76,18 @@
             }
         }
 
-        protected override void SetActive(bool activate) 
+        protected override void SetActive(bool activate)
         {
-            if (!activate)
+            if (!activate && !active)
+            {
                 manualDisable = false;
+
+                if (manuallyActive)
+                {
+                    base.SetActive(true);
+                    return;
+                }
+            }
 
             base.SetActive(activate);
         }
