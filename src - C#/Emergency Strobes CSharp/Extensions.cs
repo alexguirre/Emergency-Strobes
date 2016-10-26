@@ -29,23 +29,48 @@
 
     internal static class Extensions
     {
+        private static int BrokenLightsOffset;
+        private static int LightMultiplierOffset;
+        private static int ShouldRenderBrokenLightsOffset;
+        private static int ShouldRenderBrokenSirenLightsOffset;
+
+        static Extensions()
+        {
+            switch (Game.ProductVersion.Build)
+            {
+                default:
+                case 877:
+                    BrokenLightsOffset = 0x079C;
+                    LightMultiplierOffset = 0x092C;
+                    ShouldRenderBrokenLightsOffset = 0x07A4;
+                    ShouldRenderBrokenSirenLightsOffset = 0x07A5;
+                    break;
+                case 791:
+                    BrokenLightsOffset = 0x077C;
+                    LightMultiplierOffset = 0x090C;
+                    ShouldRenderBrokenLightsOffset = 0x0784;
+                    ShouldRenderBrokenSirenLightsOffset = 0x0785;
+                    break;
+            }
+        }
+
         public static unsafe void SetLightBroken(this Vehicle v, VehicleLight light, bool broken)
         {
             int mask = (int)light;
 
             if (broken)
             {
-                *(int*)(v.MemoryAddress.ToInt64() + 0x079C) |= mask;
+                *(int*)(v.MemoryAddress.ToInt64() + BrokenLightsOffset) |= mask;
             }
             else
             {
-                *(int*)(v.MemoryAddress.ToInt64() + 0x079C) &= ~mask;
+                *(int*)(v.MemoryAddress.ToInt64() + BrokenLightsOffset) &= ~mask;
             }
         }
 
         public static unsafe bool IsLightBroken(this Vehicle v, VehicleLight light)
         {
-            return (*(int*)(v.MemoryAddress.ToInt64() + 0x079C) & (int)light) == (int)light;
+            return (*(int*)(v.MemoryAddress.ToInt64() + BrokenLightsOffset) & (int)light) == (int)light;
         }
 
         public static RectangleF ConvertToCurrentCoordSystem(this RectangleF rectangle)
@@ -65,33 +90,33 @@
         public static unsafe void SetLightMultiplier(this Vehicle v, float multiplier)
         {
             //NativeFunction.Natives.SetVehicleLightMultiplier(v, multiplier);
-            *(float*)(v.MemoryAddress + 0x092C) = multiplier;
+            *(float*)(v.MemoryAddress + LightMultiplierOffset) = multiplier;
         }
 
         public static unsafe float GetLightMultiplier(this Vehicle v)
         {
-            return *(float*)(v.MemoryAddress + 0x092C);
+            return *(float*)(v.MemoryAddress + LightMultiplierOffset);
         }
 
         public static unsafe void SetBrokenLightsRenderedAsBroken(this Vehicle v, bool broken)
         {
-            *(byte*)(v.MemoryAddress + 0x07A4) = (byte)(broken ? 1 : 0);
+            *(byte*)(v.MemoryAddress + ShouldRenderBrokenLightsOffset) = (byte)(broken ? 1 : 0);
         }
 
         public static unsafe bool AreBrokenLightsRenderedAsBroken(this Vehicle v)
         {
-            byte value = *(byte*)(v.MemoryAddress + 0x07A4);
+            byte value = *(byte*)(v.MemoryAddress + ShouldRenderBrokenLightsOffset);
             return value == 1;
         }
 
         public static unsafe void SetBrokenSirenLightsRenderedAsBroken(this Vehicle v, bool broken)
         {
-            *(byte*)(v.MemoryAddress + 0x07A5) = (byte)(broken ? 1 : 0);
+            *(byte*)(v.MemoryAddress + ShouldRenderBrokenSirenLightsOffset) = (byte)(broken ? 1 : 0);
         }
 
         public static unsafe bool AreBrokenSirenLightsRenderedAsBroken(this Vehicle v)
         {
-            byte value = *(byte*)(v.MemoryAddress + 0x07A5);
+            byte value = *(byte*)(v.MemoryAddress + ShouldRenderBrokenSirenLightsOffset);
             return value == 1;
         }
     }
