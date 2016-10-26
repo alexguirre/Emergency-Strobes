@@ -65,7 +65,7 @@
             if (Control.SwitchPattern.IsJustPressed())
             {
                 int newIndex = currentPatternIndex + 1;
-                if (newIndex >= Settings.Patterns.Length)
+                if (newIndex >= Patterns.Length)
                     newIndex = 0;
 
                 Pattern = Patterns[newIndex];
