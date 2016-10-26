@@ -55,12 +55,17 @@
             {
                 Patterns = GetDefaultPatterns();
 
-                using (StreamWriter writer = new StreamWriter(PatternsXMLFileName, false))
+                string xmlText = "";
+                using (StringWriter writer = new StringWriter())
                 {
-                    writer.WriteLine(PatternXMLExplanationText);
-
                     XmlSerializer s = new XmlSerializer(typeof(Pattern[]));
                     s.Serialize(writer, Patterns);
+                    xmlText = writer.ToString().Replace("\"?>", "\"?>" + Environment.NewLine + PatternXMLExplanationText); // add the explanation comment after the XML declaration
+                }
+
+                using (StreamWriter writer = new StreamWriter(PatternsXMLFileName, false))
+                {
+                    writer.Write(xmlText);
                 }
             }
 
