@@ -12,6 +12,6 @@ using Rage.Attributes;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("c4803460-28b0-4bbb-aa8f-10d66131bdc3")]
-[assembly: AssemblyVersion("4.0.0.*")]
-[assembly: AssemblyFileVersion("4.0.0.0")]
+[assembly: AssemblyVersion("4.2.0.*")]
+[assembly: AssemblyFileVersion("4.2.0.0")]
 [assembly: Plugin("Emergency Strobes", Author = "alexguirre", PrefersSingleInstance = true)]
