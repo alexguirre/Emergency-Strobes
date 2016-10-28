@@ -111,7 +111,7 @@
             PlayerStrobedVehicle?.Dispose();
             PlayerStrobedVehicle = null;
 
-            Settings.SwitchSound.Dispose();
+            Settings.SwitchSound?.Dispose();
         }
 
 
