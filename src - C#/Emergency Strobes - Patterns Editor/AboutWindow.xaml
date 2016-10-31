@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmergencyStrobesPatternsEditor"
         mc:Ignorable="d"
-        Title="{Binding TitleDisplay, FallbackValue=Title Display, ElementName=This}" Height="220" Width="420" x:Name="This" ResizeMode="NoResize">
+        x:Name="This" Title="{Binding TitleDisplay, FallbackValue=Title Display, ElementName=This}" Height="220" Width="420" ResizeMode="NoResize" Icon="{Binding ImageSource, ElementName=This}">
     <Grid>
         <Rectangle Height="1" Margin="0,77,0,0" VerticalAlignment="Top">
             <Rectangle.Fill>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Image Width="48" Height="48" Margin="5,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image Width="48" Height="48" Margin="5,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{Binding ImageSource, ElementName=This}"/>
         <Label Content="{Binding ProductName, FallbackValue=Product Name, ElementName=This}" FontSize="13" FontWeight="Bold" Margin="56,6,0,136"/>
         <Label FontFamily="Segoe UI" Margin="57,22,0,0" FontSize="11">
             <TextBlock TextWrapping="Wrap" Text="{Binding ProductDescription, FallbackValue=Product Description, ElementName=This}"/>

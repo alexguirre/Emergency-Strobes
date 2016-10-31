@@ -93,8 +93,31 @@ namespace EmergencyStrobesPatternsEditor
             }
         }
 
+        private BitmapImage imageSource;
+        public ImageSource ImageSource
+        {
+            get
+            {
+                return imageSource;
+            }
+        }
+
         public AboutWindow()
         {
+            Console.WriteLine(Assembly.GetExecutingAssembly().GetManifestResourceNames().Count());
+            foreach (var item in Assembly.GetExecutingAssembly().GetManifestResourceNames())
+            {
+                Console.WriteLine(item);
+            }
+
+            imageSource = new BitmapImage();
+
+            System.IO.Stream iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("EmergencyStrobesPatternsEditor.icon.ico");
+            imageSource.BeginInit();
+            imageSource.StreamSource = iconStream;
+            imageSource.EndInit();
+            iconStream.Dispose();
+
             InitializeComponent();
         }
     }
