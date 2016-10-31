@@ -47,11 +47,17 @@
             UI.Window.Closing += OnWindowClosing;
             UI.Window.OpenMenuItem.Click += OnOpenMenuItemClick;
             UI.Window.NewMenuItem.Click += OnNewMenuItemClick;
-            UI.Window.SaveMenuItem.Click += OnSaveMenuItem;
+            UI.Window.SaveMenuItem.Click += OnSaveMenuItemClick;
+            UI.Window.AboutMenuItem.Click += OnAboutMenuItemClick;
             UI.Window.AddPatternButton.Click += OnAddPatternButtonClick;
             UI.Window.CurrentPatternNameTextBox.TextChanged += OnCurrentPatternNameTextBoxChanged;
             UI.PropertyChanged += OnUIPropertyChanged;
             UI.Window.ReproducePatternButton.Click += OnReproducePatternButtonClick;
+        }
+
+        private void OnAboutMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            new AboutWindow().ShowDialog();
         }
 
         private void OnReproducePatternButtonClick(object sender, RoutedEventArgs e)
@@ -162,7 +168,7 @@
             }
         }
 
-        private void OnSaveMenuItem(object sender, RoutedEventArgs e)
+        private void OnSaveMenuItemClick(object sender, RoutedEventArgs e)
         {
             SaveCurrentFile();
         }

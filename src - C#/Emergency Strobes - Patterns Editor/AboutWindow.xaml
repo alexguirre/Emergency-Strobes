@@ -1,0 +1,23 @@
+﻿<Window x:Class="EmergencyStrobesPatternsEditor.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmergencyStrobesPatternsEditor"
+        mc:Ignorable="d"
+        Title="{Binding TitleDisplay, FallbackValue=Title Display, ElementName=This}" Height="220" Width="420" x:Name="This" ResizeMode="NoResize">
+    <Grid>
+        <Rectangle Height="1" Margin="0,77,0,0" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Image Width="48" Height="48" Margin="5,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Content="{Binding ProductName, FallbackValue=Product Name, ElementName=This}" FontSize="13" FontWeight="Bold" Margin="56,6,0,136"/>
+        <Label FontFamily="Segoe UI" Margin="57,22,0,0" FontSize="11">
+            <TextBlock TextWrapping="Wrap" Text="{Binding ProductDescription, FallbackValue=Product Description, ElementName=This}"/>
+        </Label>
+        <Label Content="{Binding VersionDisplay, FallbackValue=Version Display, ElementName=This}" FontFamily="Segoe UI" Margin="0,78,0,72" FontSize="11"/>
+        <Label Content="{Binding CopyrightDisplay, FallbackValue=Copyright Display, ElementName=This}" FontFamily="Segoe UI" Margin="0,94,0,52" FontSize="11"/>
+    </Grid>
+</Window>
