@@ -48,6 +48,8 @@
         protected bool prevActive;
         protected bool active;
 
+        protected bool disabledHeadTailLightsSequences;
+
         public StrobedVehicle(Vehicle veh, Pattern pattern)
         {
             Vehicle = veh;
@@ -63,11 +65,32 @@
             LeftBrakeLight = new StrobedLight(this, VehicleLight.LeftBrakeLight);
             RightBrakeLight = new StrobedLight(this, VehicleLight.RightBrakeLight);
 
-            Vehicle.EmergencyLightingOverride = Vehicle.DefaultEmergencyLighting.Clone();
-            Vehicle.EmergencyLightingOverride.RightHeadLightSequenceRaw = 0;
-            Vehicle.EmergencyLightingOverride.RightTailLightSequenceRaw = 0;
-            Vehicle.EmergencyLightingOverride.LeftHeadLightSequenceRaw = 0;
-            Vehicle.EmergencyLightingOverride.LeftTailLightSequenceRaw = 0;
+            // with custom siren settings RPH fails to obtain the Vehicle's EmergencyLighting, if so don't disable the headlight and tail lights sequences
+            EmergencyLighting defaultEmergencyLighting = Vehicle.DefaultEmergencyLighting;
+
+            if (defaultEmergencyLighting == null)
+            {
+                defaultEmergencyLighting = Vehicle.EmergencyLighting;
+
+                if (defaultEmergencyLighting == null)
+                {
+                    defaultEmergencyLighting = Vehicle.Model.EmergencyLighting;
+                }
+            }
+
+            if (defaultEmergencyLighting != null)
+            {
+                Vehicle.EmergencyLightingOverride = defaultEmergencyLighting.Clone();
+                Vehicle.EmergencyLightingOverride.RightHeadLightSequenceRaw = 0;
+                Vehicle.EmergencyLightingOverride.RightTailLightSequenceRaw = 0;
+                Vehicle.EmergencyLightingOverride.LeftHeadLightSequenceRaw = 0;
+                Vehicle.EmergencyLightingOverride.LeftTailLightSequenceRaw = 0;
+                disabledHeadTailLightsSequences = true;
+            }
+            else
+            {
+                disabledHeadTailLightsSequences = false;
+            }
         }
 
         public virtual void Update()
@@ -213,7 +236,11 @@
             if (Vehicle)
             {
                 ResetVehicleLights();
-                Vehicle.EmergencyLightingOverride = null;
+                // with custom siren settings, setting EmergencyLightingOverride to null removes all EmergencyLighting from the Vehicle(the siren no longer works)
+                if (disabledHeadTailLightsSequences) 
+                {
+                    Vehicle.EmergencyLightingOverride = null;
+                }
             }
         }
 
