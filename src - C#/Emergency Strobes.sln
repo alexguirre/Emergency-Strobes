@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergency Strobes CSharp", "Emergency Strobes CSharp\Emergency Strobes CSharp.csproj", "{C4803460-28B0-4BBB-AA8F-10D66131BDC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergency Strobes - Patterns Editor", "Emergency Strobes - Patterns Editor\Emergency Strobes - Patterns Editor.csproj", "{BE3B9718-0ABE-4F6A-879F-C0AC81800223}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{C4803460-28B0-4BBB-AA8F-10D66131BDC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4803460-28B0-4BBB-AA8F-10D66131BDC3}.Release|x64.ActiveCfg = Release|x64
 		{C4803460-28B0-4BBB-AA8F-10D66131BDC3}.Release|x64.Build.0 = Release|x64
+		{BE3B9718-0ABE-4F6A-879F-C0AC81800223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3B9718-0ABE-4F6A-879F-C0AC81800223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3B9718-0ABE-4F6A-879F-C0AC81800223}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BE3B9718-0ABE-4F6A-879F-C0AC81800223}.Debug|x64.Build.0 = Debug|Any CPU
+		{BE3B9718-0ABE-4F6A-879F-C0AC81800223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3B9718-0ABE-4F6A-879F-C0AC81800223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3B9718-0ABE-4F6A-879F-C0AC81800223}.Release|x64.ActiveCfg = Release|Any CPU
+		{BE3B9718-0ABE-4F6A-879F-C0AC81800223}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

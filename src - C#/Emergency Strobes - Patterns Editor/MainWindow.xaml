@@ -1,0 +1,43 @@
+﻿<Window x:Class="EmergencyStrobesPatternsEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ex="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:EmergencyStrobesPatternsEditor"
+        mc:Ignorable="d"
+        x:Name="Window" Title="{Binding WindowTitle, FallbackValue=Emergency Strobes - Patterns Editor}" Height="550" Width="800" MinHeight="250" MinWidth="425" MaxWidth="800" Background="White">
+    <Grid>
+        <Menu HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="519" Background="#FFFFFFFF">
+            <MenuItem Header="File">
+                <MenuItem x:Name="NewMenuItem" Header="New" HorizontalAlignment="Left" Width="130"/>
+                <MenuItem x:Name="OpenMenuItem" Header="Open" HorizontalAlignment="Left" Width="130"/>
+                <MenuItem x:Name="SaveMenuItem" Header="Save" HorizontalAlignment="Left" Width="130" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
+            </MenuItem>
+            <MenuItem x:Name="AboutMenuItem" Header="About"/>
+        </Menu>
+        <Rectangle Height="1" Margin="0,18,0,0" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <ListBox x:Name="CurrentPatternsListBox" Margin="10,50,0,10" ItemsSource="{Binding CurrentPatterns}" SelectedValue="{Binding SelectedPattern}" IsEnabled="{Binding AreFileDependantControlsEnabled}" HorizontalAlignment="Left" Width="201" DisplayMemberPath="Name"/>
+        <Label Content="Patterns" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.152,0.463" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
+        <Button x:Name="AddPatternButton" Content="Add" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="173,27,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="38" IsEnabled="{Binding AreFileDependantControlsEnabled}" ToolTip="Add a new empty pattern."/>
+        <TextBox x:Name="CurrentPatternNameTextBox" Height="23" Margin="316,57,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsEnabled="{Binding AreFileDependantControlsEnabled}" AcceptsReturn="False" MaxLines="1"/>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="259,54,0,0" VerticalAlignment="Top" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
+        <local:MultiStagesEditor x:Name="MultiStagesEditor" Margin="259,85,10,10" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
+        <Button x:Name="ReproducePatternButton" Margin="0,27,10,0" Height="20" VerticalAlignment="Top" IsEnabled="{Binding AreFileDependantControlsEnabled}" ToolTip="[WIP] Reproduce the current pattern. [WIP]" HorizontalAlignment="Right" Width="90">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Reproduce" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" IsEnabledChanged="OnIsEnabledChanged"/>
+                <Polygon Width="15" Height="15" Fill="Black" Margin="5,0,0,0" IsEnabledChanged="OnIsEnabledChanged">
+                    <Polygon.Points>
+                        <Point X="0" Y="0" />
+                        <Point X="0" Y="15" />
+                        <Point X="10" Y="7.75" />
+                    </Polygon.Points>
+                </Polygon>
+            </StackPanel>
+        </Button>
+    </Grid>
+</Window>
