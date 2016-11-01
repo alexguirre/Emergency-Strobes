@@ -103,7 +103,7 @@ namespace EmergencyStrobesPatternsEditor
                     else
                     {
                         // swap the editors
-                        UIElement temp = StageEditorsDragCanvas.Children[closestIndex]; // TODO
+                        UIElement temp = StageEditorsDragCanvas.Children[closestIndex];
                         StageEditorsDragCanvas.Children.Remove(droppedElement);
                         StageEditorsDragCanvas.Children.Insert(closestIndex, droppedElement);
                         StageEditorsDragCanvas.Children.Remove(temp);

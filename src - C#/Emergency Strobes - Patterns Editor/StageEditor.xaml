@@ -10,7 +10,7 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
     </UserControl.BorderBrush>
     <Grid Margin="1">
-        <ex:IntegerUpDown x:Name="MillisecondsUpDown" TextAlignment="Left" Minimum="0" Value="{Binding Path=Milliseconds, ElementName=This}" Height="22" VerticalAlignment="Top" Watermark="Time (in milliseconds)" HorizontalContentAlignment="Left"/>
+        <ex:IntegerUpDown x:Name="MillisecondsUpDown" TextAlignment="Left" Minimum="0" Value="{Binding Path=Milliseconds, ElementName=This}" Height="22" VerticalAlignment="Top" Watermark="Time (in milliseconds)" ToolTip="Time (in milliseconds)" HorizontalContentAlignment="Left"/>
         <ex:DropDownButton x:Name="StageTypesDropDown" Content="{Binding Path=Type, ElementName=This}" Height="22" VerticalAlignment="Bottom" ToolTip="Select the lights that should be turned on during this stage.">
             <ex:DropDownButton.DropDownContent>
                 <StackPanel Orientation="Vertical" d:DesignWidth="300" >

@@ -6,7 +6,7 @@
         xmlns:ex="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:EmergencyStrobesPatternsEditor"
         mc:Ignorable="d"
-        x:Name="Window" Title="{Binding WindowTitle, FallbackValue=Emergency Strobes - Patterns Editor}" Height="550" Width="800" MinHeight="250" MinWidth="425" MaxWidth="800" Background="White">
+        x:Name="Window" Title="{Binding WindowTitle, FallbackValue=Emergency Strobes - Patterns Editor}" Height="550" Width="800" MinHeight="250" MinWidth="425" Background="White">
     <Grid>
         <Menu HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="519" Background="#FFFFFFFF">
             <MenuItem Header="File">

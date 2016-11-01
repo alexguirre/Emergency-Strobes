@@ -62,7 +62,15 @@
 
         private void OnReproducePatternButtonClick(object sender, RoutedEventArgs e)
         {
-            // open a new window that reproduces the pattern, drawing using DX
+            Pattern pattern = new Pattern(UI.SelectedPattern.Name, UI.Window.MultiStagesEditor.GetStages());
+
+            if (pattern.Stages == null || pattern.Stages.Length <= 0)
+            {
+                MessageBox.Show("The selected pattern doesn't have any stages, can't reproduce.", "Empty pattern", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            new PatternPlayerWindow(pattern).ShowDialog();
         }
 
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
