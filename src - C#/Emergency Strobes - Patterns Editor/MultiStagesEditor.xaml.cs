@@ -94,12 +94,21 @@ namespace EmergencyStrobesPatternsEditor
             {
                 if (closestIndex != droppedElementIndex)
                 {
-                    // swap the editors
-                    UIElement temp = StageEditorsDragCanvas.Children[closestIndex];
-                    StageEditorsDragCanvas.Children.Remove(droppedElement);
-                    StageEditorsDragCanvas.Children.Insert(closestIndex, droppedElement);
-                    StageEditorsDragCanvas.Children.Remove(temp);
-                    StageEditorsDragCanvas.Children.Insert(droppedElementIndex, temp);
+                    if (closestIndex > StageEditorsDragCanvas.Children.Count - 1)
+                    {
+                        // add the dropped element to the end of the list 
+                        StageEditorsDragCanvas.Children.Remove(droppedElement);
+                        StageEditorsDragCanvas.Children.Add(droppedElement);
+                    }
+                    else
+                    {
+                        // swap the editors
+                        UIElement temp = StageEditorsDragCanvas.Children[closestIndex]; // TODO
+                        StageEditorsDragCanvas.Children.Remove(droppedElement);
+                        StageEditorsDragCanvas.Children.Insert(closestIndex, droppedElement);
+                        StageEditorsDragCanvas.Children.Remove(temp);
+                        StageEditorsDragCanvas.Children.Insert(droppedElementIndex, temp);
+                    }
                 }
 
                 SetAllStageEditorsAppropriateYPositions();
