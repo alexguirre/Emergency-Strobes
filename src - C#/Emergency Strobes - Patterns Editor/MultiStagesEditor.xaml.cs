@@ -219,11 +219,11 @@ namespace EmergencyStrobesPatternsEditor
             }
         }
 
-        public const double DefaultStageEditorHeight = 60, DefaultStageEditorMaxWidth = 320;
-
         private void OnAddButtonClick(object sender, RoutedEventArgs e)
         {
             AddStageEditor();
         }
+
+        public const double DefaultStageEditorHeight = 55, DefaultStageEditorMaxWidth = 320;
     }
 }

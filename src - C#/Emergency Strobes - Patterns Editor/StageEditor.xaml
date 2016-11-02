@@ -10,8 +10,8 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
     </UserControl.BorderBrush>
     <Grid Margin="1">
-        <ex:IntegerUpDown x:Name="MillisecondsUpDown" TextAlignment="Left" Minimum="0" Value="{Binding Path=Milliseconds, ElementName=This}" Height="22" VerticalAlignment="Top" Watermark="Time (in milliseconds)" ToolTip="Time (in milliseconds)" HorizontalContentAlignment="Left"/>
-        <ex:DropDownButton x:Name="StageTypesDropDown" Content="{Binding Path=Type, ElementName=This}" Height="22" VerticalAlignment="Bottom" ToolTip="Select the lights that should be turned on during this stage.">
+        <ex:IntegerUpDown x:Name="MillisecondsUpDown" TextAlignment="Left" Minimum="0" Value="{Binding Path=Milliseconds, ElementName=This}" Height="22" VerticalAlignment="Top" Watermark="Time (in milliseconds)" ToolTip="Time (in milliseconds)" HorizontalContentAlignment="Left" Margin="0,0,18,0"/>
+        <ex:DropDownButton x:Name="StageTypesDropDown" Content="{Binding Path=Type, ElementName=This}" Height="22" VerticalAlignment="Bottom" ToolTip="Select the lights that should be turned on during this stage." Margin="0,0,18,0">
             <ex:DropDownButton.DropDownContent>
                 <StackPanel Orientation="Vertical" d:DesignWidth="300" >
                     <CheckBox Content="{x:Static local:PatternStageType.All}" Checked="OnStageTypeCheckBoxChecked" Unchecked="OnStageTypeCheckBoxChecked"/>
@@ -24,5 +24,11 @@
                 </StackPanel>
             </ex:DropDownButton.DropDownContent>
         </ex:DropDownButton>
+        <Button HorizontalAlignment="Right" Width="18" PreviewMouseLeftButtonDown="OnArrowButtonMouseLeftButtonDown" PreviewMouseLeftButtonUp="OnArrowButtonMouseLeftButtonUp" ToolTip="Drag and drop to reorder the stages">
+            <StackPanel Orientation="Vertical">
+                <Image Source="gripimage.png" Height="16" Margin="0,0,0,0"/>
+                <Image Source="gripimage.png" Height="16" Margin="0,-5,0,0"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

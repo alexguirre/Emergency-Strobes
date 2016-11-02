@@ -59,6 +59,8 @@ namespace EmergencyStrobesPatternsEditor
                     checkBoxesByStageType[(PatternStageType)cb.Content] = cb;
                 }
             }
+
+            DragCanvas.SetCanBeDragged(this, false);
         }
 
         protected void OnStageTypeCheckBoxChecked(object sender, RoutedEventArgs e)
@@ -114,5 +116,32 @@ namespace EmergencyStrobesPatternsEditor
         public static readonly DependencyProperty MillisecondsProperty = DependencyProperty.Register(nameof(Milliseconds), typeof(int), typeof(StageEditor), new PropertyMetadata(0), (v) => (int)v >= 0);
         public static readonly DependencyProperty TypeProperty = DependencyProperty.Register(nameof(Type), typeof(PatternStageType), typeof(StageEditor), new PropertyMetadata(PatternStageType.None));
         #endregion
+
+        private void OnArrowButtonMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragCanvas.SetCanBeDragged(this, true);
+        }
+
+        private void OnArrowButtonMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DragCanvas.SetCanBeDragged(this, false);
+        }
+
+
+        private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            UIElement element = sender as UIElement;
+            if (element != null)
+            {
+                if ((bool)e.NewValue)
+                {
+                    element.Opacity = 1.0;
+                }
+                else
+                {
+                    element.Opacity = 0.5;
+                }
+            }
+        }
     }
 }
