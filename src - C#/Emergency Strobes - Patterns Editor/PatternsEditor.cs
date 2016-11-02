@@ -95,7 +95,10 @@
 
         private void OnCurrentPatternNameTextBoxChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            UI.SelectedPattern.Name = UI.Window.CurrentPatternNameTextBox.Text;
+            if (UI.SelectedPattern != null && UI.Window.CurrentPatternNameTextBox.Text != null)
+            {
+                UI.SelectedPattern.Name = UI.Window.CurrentPatternNameTextBox.Text;
+            }
         }
         
         private void OnUIPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -121,8 +124,12 @@
                 }
                 else
                 {
+                    UI.Window.CurrentPatternNameTextBox.Text = null;
+
                     currentPatternIndex = -1;
                 }
+                
+                UI.ArePatternDependantControlsEnabled = (UI.SelectedPattern != null);
             }
         }
 

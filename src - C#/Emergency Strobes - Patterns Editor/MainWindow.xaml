@@ -10,9 +10,9 @@
     <Grid>
         <Menu HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="519" Background="#FFFFFFFF">
             <MenuItem Header="File">
-                <MenuItem x:Name="NewMenuItem" Header="New" HorizontalAlignment="Left" Width="130"/>
-                <MenuItem x:Name="OpenMenuItem" Header="Open" HorizontalAlignment="Left" Width="130"/>
-                <MenuItem x:Name="SaveMenuItem" Header="Save" HorizontalAlignment="Left" Width="130" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
+                <MenuItem x:Name="NewMenuItem" Header="New" HorizontalAlignment="Left"/>
+                <MenuItem x:Name="OpenMenuItem" Header="Open" HorizontalAlignment="Left"/>
+                <MenuItem x:Name="SaveMenuItem" Header="Save" HorizontalAlignment="Left" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
             </MenuItem>
             <MenuItem x:Name="AboutMenuItem" Header="About"/>
         </Menu>
@@ -24,10 +24,10 @@
         <ListBox x:Name="CurrentPatternsListBox" Margin="10,50,0,10" ItemsSource="{Binding CurrentPatterns}" SelectedValue="{Binding SelectedPattern}" IsEnabled="{Binding AreFileDependantControlsEnabled}" HorizontalAlignment="Left" Width="201" DisplayMemberPath="Name"/>
         <Label Content="Patterns" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.152,0.463" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
         <Button x:Name="AddPatternButton" Content="Add" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="173,27,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="38" IsEnabled="{Binding AreFileDependantControlsEnabled}" ToolTip="Add a new empty pattern."/>
-        <TextBox x:Name="CurrentPatternNameTextBox" Height="23" Margin="316,57,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsEnabled="{Binding AreFileDependantControlsEnabled}" AcceptsReturn="False" MaxLines="1"/>
-        <Label Content="Name" HorizontalAlignment="Left" Margin="259,54,0,0" VerticalAlignment="Top" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
-        <local:MultiStagesEditor x:Name="MultiStagesEditor" Margin="259,85,10,10" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
-        <Button x:Name="ReproducePatternButton" Margin="0,27,10,0" Height="20" VerticalAlignment="Top" IsEnabled="{Binding AreFileDependantControlsEnabled}" ToolTip="[WIP] Reproduce the current pattern. [WIP]" HorizontalAlignment="Right" Width="90">
+        <TextBox x:Name="CurrentPatternNameTextBox" Height="23" Margin="316,57,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsEnabled="{Binding ArePatternDependantControlsEnabled}" AcceptsReturn="False" MaxLines="1"/>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="259,54,0,0" VerticalAlignment="Top" IsEnabled="{Binding ArePatternDependantControlsEnabled}"/>
+        <local:MultiStagesEditor x:Name="MultiStagesEditor" Margin="259,85,10,10" IsEnabled="{Binding ArePatternDependantControlsEnabled}"/>
+        <Button x:Name="ReproducePatternButton" Margin="0,27,10,0" Height="20" VerticalAlignment="Top" IsEnabled="{Binding ArePatternDependantControlsEnabled}" ToolTip="[WIP] Reproduce the current pattern. [WIP]" HorizontalAlignment="Right" Width="90">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Reproduce" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" IsEnabledChanged="OnIsEnabledChanged"/>
                 <Polygon Width="15" Height="15" Fill="Black" Margin="5,0,0,0" IsEnabledChanged="OnIsEnabledChanged">

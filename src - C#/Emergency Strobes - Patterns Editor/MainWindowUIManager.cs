@@ -81,6 +81,19 @@
             }
         }
 
+        private bool arePatternDependantControlsEnabled;
+        public bool ArePatternDependantControlsEnabled
+        {
+            get { return arePatternDependantControlsEnabled; }
+            set
+            {
+                if (arePatternDependantControlsEnabled == value)
+                    return;
+                arePatternDependantControlsEnabled = value;
+                OnPropertyChanged(nameof(ArePatternDependantControlsEnabled));
+            }
+        }
+
         public MainWindowUIManager(MainWindow window)
         {
             Window = window;
