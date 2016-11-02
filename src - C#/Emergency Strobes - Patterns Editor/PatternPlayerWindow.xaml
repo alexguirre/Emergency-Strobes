@@ -7,11 +7,59 @@
         xmlns:i="clr-namespace:System.Windows.Interop;assembly=PresentationCore"
         mc:Ignorable="d"
         x:Name="This" Title="PatternPlayerWindow" Height="600" Width="300" ResizeMode="NoResize">
-    <Grid>
-        <Image Margin="10">
+    <Canvas>
+        <Ellipse x:Name="LeftHeadlightEllipse" Height="100" Canvas.Left="10" Canvas.Top="21" Width="103">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFD8E208" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="RightHeadlightEllipse" Height="100" Canvas.Left="179" Canvas.Top="21" Width="103">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFD8E208" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="LeftTailLightEllipse" Height="100" Canvas.Left="10" Canvas.Top="339" Width="103">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Red" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="RightTailLightEllipse" Height="100" Canvas.Left="179" Canvas.Top="339" Width="103">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Red" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="LeftBrakeLightEllipse" Height="100" Canvas.Left="10" Canvas.Top="453" Width="103">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFB20000" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="RightBrakeLightEllipse" Height="100" Canvas.Left="179" Canvas.Top="453" Width="103">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFB20000" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <!--<Image Margin="10">
             <Image.Source>
                 <i:D3DImage x:Name="D3DImage"/>
             </Image.Source>
-        </Image>
-    </Grid>
+        </Image>-->
+    </Canvas>
 </Window>
