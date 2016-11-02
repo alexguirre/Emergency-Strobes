@@ -47,11 +47,12 @@ namespace EmergencyStrobesPatternsEditor
             
             RenderStage();
 
-            timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, unchecked((int)currentStage.Milliseconds)), DispatcherPriority.Normal, OnTimerTick, Dispatcher);
+            int timeMs = unchecked((int)currentStage.Milliseconds);
+            timeMs = Math.Max(timeMs, 1); // if milliseconds equals 0, it freezes the window, it needs to be at least 1 ms
+
+            timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, timeMs), DispatcherPriority.Normal, OnTimerTick, Dispatcher);
             timer.Start();
         }
-
-
 
         protected override void OnClosed(EventArgs e)
         {
@@ -69,7 +70,11 @@ namespace EmergencyStrobesPatternsEditor
             currentStage = Pattern.Stages[newStageIndex];
             currentStageIndex = newStageIndex;
             RenderStage();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, unchecked((int)currentStage.Milliseconds));
+
+            int timeMs = unchecked((int)currentStage.Milliseconds);
+            timeMs = Math.Max(timeMs, 1); // if milliseconds equals 0, it freezes the window, it needs to be at least 1 ms
+
+            timer.Interval = new TimeSpan(0, 0, 0, 0, timeMs);
         }
 
         private void RenderStage()
