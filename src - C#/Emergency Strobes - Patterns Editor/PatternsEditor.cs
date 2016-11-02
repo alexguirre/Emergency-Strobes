@@ -151,10 +151,13 @@
                 }
             }
 
+            currentPatternIndex = -1;
             UI.CurrentPatterns = new ObservableCollection<PatternWrapper>();
             AddNewPattern();
             CurrentFileName = "new patterns file";
             IsEditingFile = true;
+            UI.SelectedPattern = null;
+            currentPatternIndex = -1;
         }
 
         private void OnOpenMenuItemClick(object sender, RoutedEventArgs e)
@@ -170,6 +173,7 @@
             bool? result = openFileDialog.ShowDialog();
             if (result != null && result.HasValue && result.Value)
             {
+                currentPatternIndex = -1;
                 CurrentFileName = openFileDialog.FileName;
                 UI.CurrentPatterns = new ObservableCollection<PatternWrapper>(PatternsIO.LoadFrom(CurrentFileName).Select(p => new PatternWrapper(p)).ToList());
                 IsEditingFile = true;
@@ -204,6 +208,10 @@
                 }
             }
 
+            if (currentPatternIndex != -1 && currentPatternIndex < UI.CurrentPatterns.Count)
+            {
+                UI.CurrentPatterns[currentPatternIndex].Stages = UI.Window.MultiStagesEditor.GetStages();
+            }
             PatternsIO.SaveTo(CurrentFileName, UI.CurrentPatterns.Select(w => w.Pattern).ToArray());
             //HasMadeChangesSinceLastSave = false;
         }
