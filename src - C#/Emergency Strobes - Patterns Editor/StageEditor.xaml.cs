@@ -29,7 +29,21 @@ namespace EmergencyStrobesPatternsEditor
         public PatternStageType Type
         {
             get { return (PatternStageType)GetValue(TypeProperty); }
-            set { SetValue(TypeProperty, value); }
+            set
+            {
+                SetValue(TypeProperty, value);
+
+                foreach (var item in checkBoxesByStageType) // check the checkboxes if the new value includes their type
+                {
+                    item.Value.Checked -= OnStageTypeCheckBoxChecked;
+                    item.Value.Unchecked -= OnStageTypeCheckBoxChecked;
+
+                    item.Value.IsChecked = ((value & item.Key) == item.Key);
+
+                    item.Value.Checked += OnStageTypeCheckBoxChecked;
+                    item.Value.Unchecked += OnStageTypeCheckBoxChecked;
+                }
+            }
         }
 
         public Pattern.Stage Stage
