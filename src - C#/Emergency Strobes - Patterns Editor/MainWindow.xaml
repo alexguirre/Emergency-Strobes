@@ -23,7 +23,8 @@
         </Rectangle>
         <ListBox x:Name="CurrentPatternsListBox" Margin="10,50,0,10" ItemsSource="{Binding CurrentPatterns}" SelectedValue="{Binding SelectedPattern}" IsEnabled="{Binding AreFileDependantControlsEnabled}" HorizontalAlignment="Left" Width="201" DisplayMemberPath="Name"/>
         <Label Content="Patterns" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.152,0.463" IsEnabled="{Binding AreFileDependantControlsEnabled}"/>
-        <Button x:Name="AddPatternButton" Content="Add" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="173,27,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="38" IsEnabled="{Binding AreFileDependantControlsEnabled}" ToolTip="Add a new empty pattern."/>
+        <Button x:Name="AddPatternButton" Content="Add" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="106,27,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" IsEnabled="{Binding AreFileDependantControlsEnabled}" ToolTip="Add a new empty pattern."/>
+        <Button x:Name="RemovePatternButton" Content="Remove" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="161,27,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" IsEnabled="{Binding ArePatternDependantControlsEnabled}" ToolTip="Removes the selected pattern."/>
         <TextBox x:Name="CurrentPatternNameTextBox" Height="23" Margin="316,57,10,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" IsEnabled="{Binding ArePatternDependantControlsEnabled}" AcceptsReturn="False" MaxLines="1"/>
         <Label Content="Name" HorizontalAlignment="Left" Margin="259,54,0,0" VerticalAlignment="Top" IsEnabled="{Binding ArePatternDependantControlsEnabled}"/>
         <local:MultiStagesEditor x:Name="MultiStagesEditor" Margin="259,85,10,10" IsEnabled="{Binding ArePatternDependantControlsEnabled}"/>

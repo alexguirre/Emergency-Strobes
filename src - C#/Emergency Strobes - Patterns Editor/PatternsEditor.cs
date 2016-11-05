@@ -50,6 +50,7 @@
             UI.Window.SaveMenuItem.Click += OnSaveMenuItemClick;
             UI.Window.AboutMenuItem.Click += OnAboutMenuItemClick;
             UI.Window.AddPatternButton.Click += OnAddPatternButtonClick;
+            UI.Window.RemovePatternButton.Click += OnRemovePatternButtonClick;
             UI.Window.CurrentPatternNameTextBox.TextChanged += OnCurrentPatternNameTextBoxChanged;
             UI.PropertyChanged += OnUIPropertyChanged;
             UI.Window.ReproducePatternButton.Click += OnReproducePatternButtonClick;
@@ -138,6 +139,15 @@
             if (IsEditingFile)
             {
                 AddNewPattern();
+            }
+        }
+
+        private void OnRemovePatternButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (UI.SelectedPattern != null)
+            {
+                UI.CurrentPatterns.Remove(UI.SelectedPattern);
+                UI.SelectedPattern = null;
             }
         }
 
