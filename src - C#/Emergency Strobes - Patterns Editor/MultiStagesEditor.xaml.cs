@@ -35,6 +35,15 @@ namespace EmergencyStrobesPatternsEditor
 
         public void RemoveStageEditors()
         {
+            foreach (UIElement element in StageEditorsDragCanvas.Children)
+            {
+                StageEditor editor = element as StageEditor;
+                if(editor != null)
+                {
+                    editor.DeleteButtonClick -= OnStageEditorDeleteClick;
+                }
+            }
+
             StageEditorsDragCanvas.Children.Clear();
         }
 
@@ -43,6 +52,7 @@ namespace EmergencyStrobesPatternsEditor
             StageEditor editor = new StageEditor();
             editor.Width = DefaultStageEditorMaxWidth;
             editor.Height = DefaultStageEditorHeight;
+            editor.DeleteButtonClick += OnStageEditorDeleteClick;
 
             int index = StageEditorsDragCanvas.Children.Add(editor);
             SetStageEditorAppropriateYPosition(index);
@@ -58,6 +68,21 @@ namespace EmergencyStrobesPatternsEditor
             return editor;
         }
 
+        public void RemoveStageEditor(StageEditor editor)
+        {
+            if (editor == null)
+                return;
+
+            if (StageEditorsDragCanvas.Children.Contains(editor))
+            {
+                editor.DeleteButtonClick -= OnStageEditorDeleteClick;
+                StageEditorsDragCanvas.Children.Remove(editor);
+                SetAllStageEditorsAppropriateYPositions();
+                CenterStageEditors();
+                SetDragCanvasFitStageEditors();
+            }
+        }
+
         public Pattern.Stage[] GetStages()
         {
             Pattern.Stage[] stages = new Pattern.Stage[StageEditorsDragCanvas.Children.Count];
@@ -66,6 +91,15 @@ namespace EmergencyStrobesPatternsEditor
                 stages[i] = ((StageEditor)StageEditorsDragCanvas.Children[i]).Stage;
             }
             return stages;
+        }
+
+        private void OnStageEditorDeleteClick(object sender, EventArgs e)
+        {
+            StageEditor editor = sender as StageEditor;
+            if (editor != null)
+            {
+                RemoveStageEditor(editor);
+            }
         }
 
         private void OnBorderIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)

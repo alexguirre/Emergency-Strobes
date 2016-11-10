@@ -20,6 +20,8 @@ namespace EmergencyStrobesPatternsEditor
     /// </summary>
     public partial class StageEditor : UserControl
     {
+        public event EventHandler DeleteButtonClick;
+
         public int Milliseconds
         {
             get { return (int)GetValue(MillisecondsProperty); }
@@ -156,6 +158,11 @@ namespace EmergencyStrobesPatternsEditor
                     element.Opacity = 0.5;
                 }
             }
+        }
+
+        private void OnDeleteButtonClick(object sender, RoutedEventArgs e)
+        {
+            DeleteButtonClick?.Invoke(this, EventArgs.Empty);
         }
     }
 }
