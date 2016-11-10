@@ -10,7 +10,7 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
     </UserControl.BorderBrush>
     <Grid Margin="1">
-        <ex:IntegerUpDown x:Name="MillisecondsUpDown" TextAlignment="Left" Minimum="0" Value="{Binding Path=Milliseconds, ElementName=This}" Height="22" VerticalAlignment="Top" Watermark="Time (in milliseconds)" ToolTip="Time (in milliseconds)" HorizontalContentAlignment="Left" Margin="18,0"/>
+        <ex:IntegerUpDown x:Name="MillisecondsUpDown" TextAlignment="Left" Minimum="0" Value="{Binding Path=Milliseconds, ElementName=This}" Height="22" VerticalAlignment="Top" Watermark="Time (in milliseconds)" ToolTip="Set the time (in milliseconds) that this stage will last." HorizontalContentAlignment="Left" Margin="18,0"/>
         <ex:DropDownButton x:Name="StageTypesDropDown" Content="{Binding Path=Type, ElementName=This}" Height="22" VerticalAlignment="Bottom" ToolTip="Select the lights that should be turned on during this stage." Margin="18,0">
             <ex:DropDownButton.DropDownContent>
                 <StackPanel Orientation="Vertical" d:DesignWidth="300" >
@@ -24,13 +24,13 @@
                 </StackPanel>
             </ex:DropDownButton.DropDownContent>
         </ex:DropDownButton>
-        <Button HorizontalAlignment="Right" Width="18" PreviewMouseLeftButtonDown="OnArrowButtonMouseLeftButtonDown" PreviewMouseLeftButtonUp="OnArrowButtonMouseLeftButtonUp" ToolTip="Drag and drop to reorder the stages">
+        <Button HorizontalAlignment="Right" Width="18" PreviewMouseLeftButtonDown="OnArrowButtonMouseLeftButtonDown" PreviewMouseLeftButtonUp="OnArrowButtonMouseLeftButtonUp" ToolTip="Drag and drop to reorder the stages.">
             <StackPanel Orientation="Vertical">
                 <Image Source="gripimage.png" Height="16" Margin="0,0,0,0"/>
                 <Image Source="gripimage.png" Height="16" Margin="0,-5,0,0"/>
             </StackPanel>
         </Button>
-        <Button HorizontalAlignment="Left" Width="18" Click="OnDeleteButtonClick">
+        <Button HorizontalAlignment="Left" Width="18" Click="OnDeleteButtonClick" ToolTip="Click to remove this stage.">
             <Image Source="binimage.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="22" Width="48"/>
         </Button>
     </Grid>
