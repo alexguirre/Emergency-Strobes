@@ -146,8 +146,13 @@
         {
             if (UI.SelectedPattern != null)
             {
-                UI.CurrentPatterns.Remove(UI.SelectedPattern);
-                UI.SelectedPattern = null;
+                MessageBoxResult result = MessageBox.Show($"The pattern \"{UI.SelectedPattern.Name}\" will be removed.{Environment.NewLine}Continue?", "Remove pattern", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.Yes)
+                {
+                    currentPatternIndex = -1;
+                    UI.CurrentPatterns.Remove(UI.SelectedPattern);
+                    UI.SelectedPattern = null;
+                }
             }
         }
 
