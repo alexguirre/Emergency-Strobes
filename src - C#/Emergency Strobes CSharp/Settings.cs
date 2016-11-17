@@ -33,10 +33,7 @@
         public static readonly ControllerButtons ModifierButton = INIFile.ReadEnum("ControllerButtons", "Modifier", ControllerButtons.None);
         public static readonly ControllerButtons ToggleButton = INIFile.ReadEnum("ControllerButtons", "Toggle", ControllerButtons.None);
         public static readonly ControllerButtons SwitchPatternButton = INIFile.ReadEnum("ControllerButtons", "Switch Pattern", ControllerButtons.None);
-
-        public static readonly bool ShowUI = INIFile.ReadBoolean("UI", "Show", true);
-        public static readonly string UIFontName = INIFile.ReadString("UI", "Font", "Stencil Std");
-
+        
         public static readonly bool PlaySwitchSounds = INIFile.ReadBoolean("Sounds", "Switch Pattern", true);
 
         public static readonly SoundPlayer SwitchSound;
