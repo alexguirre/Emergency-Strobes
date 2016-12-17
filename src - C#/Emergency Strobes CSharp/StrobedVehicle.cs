@@ -91,6 +91,10 @@
             {
                 disabledHeadTailLightsSequences = false;
             }
+
+            Game.LogTrivial((disabledHeadTailLightsSequences ?
+                            "Successfully disabled game's headlights and tail lights sequences for model " + veh.Model.Name :
+                            "Failed to disabled game's headlights and tail lights sequences for model " + veh.Model.Name));
         }
 
         public virtual void Update()
