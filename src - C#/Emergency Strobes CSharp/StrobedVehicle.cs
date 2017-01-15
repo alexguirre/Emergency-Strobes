@@ -40,6 +40,7 @@
 
         public StrobedLight LeftBrakeLight { get; }
         public StrobedLight RightBrakeLight { get; }
+        public StrobedLight MiddleBrakeLight { get; }
 
         protected int stagesCount;
 
@@ -64,6 +65,7 @@
 
             LeftBrakeLight = new StrobedLight(this, VehicleLight.LeftBrakeLight);
             RightBrakeLight = new StrobedLight(this, VehicleLight.RightBrakeLight);
+            MiddleBrakeLight = new StrobedLight(this, VehicleLight.MiddleBrakeLight);
 
             // with custom siren settings RPH fails to obtain the Vehicle's EmergencyLighting, if so don't disable the headlight and tail lights sequences
             EmergencyLighting defaultEmergencyLighting = Vehicle.DefaultEmergencyLighting;
@@ -125,6 +127,7 @@
 
                 LeftBrakeLight.SetActive(true);
                 RightBrakeLight.SetActive(true);
+                MiddleBrakeLight.SetActive(true);
 
                 NativeFunction.Natives.SetVehicleLights(Vehicle, 0);
                 Vehicle.SetLightMultiplier(1.0f);
@@ -204,6 +207,7 @@
 
                 LeftBrakeLight.SetActive(false);
                 RightBrakeLight.SetActive(false);
+                MiddleBrakeLight.SetActive(false);
                 return;
             }
 
@@ -216,6 +220,7 @@
 
             LeftBrakeLight.SetActive((type & PatternStageType.LeftBrakeLight) == PatternStageType.LeftBrakeLight);
             RightBrakeLight.SetActive((type & PatternStageType.RightBrakeLight) == PatternStageType.RightBrakeLight);
+            MiddleBrakeLight.SetActive(false);
         }
 
         protected bool NeedsToChangeStage()

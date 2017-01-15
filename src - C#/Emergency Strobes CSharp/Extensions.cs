@@ -20,8 +20,9 @@
 
         LeftBrakeLight = 1 << 8,
         RightBrakeLight = 1 << 9,
+        MiddleBrakeLight = 1 << 10,
 
-        All = LeftHeadlight | RightHeadlight | LeftTailLight | RightTailLight | LeftBrakeLight | RightBrakeLight | LeftFrontIndicatorLight | RightFrontIndicatorLight | LeftRearIndicatorLight | RightRearIndicatorLight,
+        All = LeftHeadlight | RightHeadlight | LeftTailLight | RightTailLight | LeftBrakeLight | RightBrakeLight | LeftFrontIndicatorLight | RightFrontIndicatorLight | LeftRearIndicatorLight | RightRearIndicatorLight | MiddleBrakeLight,
     }
 
     internal static class Extensions

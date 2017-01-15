@@ -82,6 +82,7 @@
                 case VehicleLight.RightTailLight: return "taillight_r";
                 case VehicleLight.LeftBrakeLight: return "brakelight_l";
                 case VehicleLight.RightBrakeLight: return "brakelight_r";
+                case VehicleLight.MiddleBrakeLight: return "brakelight_m";
                 default: return null;
             }
         }
