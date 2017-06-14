@@ -37,6 +37,14 @@
             switch (Game.ProductVersion.Build)
             {
                 default:
+                case 1103:
+                    BrokenLightsOffset = 0x07CC;
+                    LightMultiplierOffset = 0x0964;
+                    ShouldRenderBrokenLightsOffset = 0x07D4;
+                    ShouldRenderBrokenSirenLightsOffset = 0x07D5;
+                    break;
+                case 1032:
+                case 1011:
                 case 944:
                     BrokenLightsOffset = 0x07BC;
                     LightMultiplierOffset = 0x0954;
