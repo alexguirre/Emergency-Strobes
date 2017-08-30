@@ -27,21 +27,24 @@
 
     internal static class Extensions
     {
-        private static int BrokenLightsOffset;
-        private static int LightMultiplierOffset;
-        private static int ShouldRenderBrokenLightsOffset;
-        private static int ShouldRenderBrokenSirenLightsOffset;
+        private static readonly int BrokenLightsOffset;
+        private static readonly int LightMultiplierOffset;
+        private static readonly int ShouldRenderBrokenLightsOffset;
 
         static Extensions()
         {
             switch (Game.ProductVersion.Build)
             {
                 default:
+                case 1180:
+                    BrokenLightsOffset = 0x07EC;
+                    LightMultiplierOffset = 0x0984;
+                    ShouldRenderBrokenLightsOffset = 0x07F4;
+                    break;
                 case 1103:
                     BrokenLightsOffset = 0x07CC;
                     LightMultiplierOffset = 0x0964;
                     ShouldRenderBrokenLightsOffset = 0x07D4;
-                    ShouldRenderBrokenSirenLightsOffset = 0x07D5;
                     break;
                 case 1032:
                 case 1011:
@@ -49,19 +52,16 @@
                     BrokenLightsOffset = 0x07BC;
                     LightMultiplierOffset = 0x0954;
                     ShouldRenderBrokenLightsOffset = 0x07C4;
-                    ShouldRenderBrokenSirenLightsOffset = 0x07C5;
                     break;
                 case 877:
                     BrokenLightsOffset = 0x079C;
                     LightMultiplierOffset = 0x092C;
                     ShouldRenderBrokenLightsOffset = 0x07A4;
-                    ShouldRenderBrokenSirenLightsOffset = 0x07A5;
                     break;
                 case 791:
                     BrokenLightsOffset = 0x077C;
                     LightMultiplierOffset = 0x090C;
                     ShouldRenderBrokenLightsOffset = 0x0784;
-                    ShouldRenderBrokenSirenLightsOffset = 0x0785;
                     break;
             }
         }
@@ -109,17 +109,6 @@
         public static unsafe bool AreBrokenLightsRenderedAsBroken(this Vehicle v)
         {
             byte value = *(byte*)(v.MemoryAddress + ShouldRenderBrokenLightsOffset);
-            return value == 1;
-        }
-
-        public static unsafe void SetBrokenSirenLightsRenderedAsBroken(this Vehicle v, bool broken)
-        {
-            *(byte*)(v.MemoryAddress + ShouldRenderBrokenSirenLightsOffset) = (byte)(broken ? 1 : 0);
-        }
-
-        public static unsafe bool AreBrokenSirenLightsRenderedAsBroken(this Vehicle v)
-        {
-            byte value = *(byte*)(v.MemoryAddress + ShouldRenderBrokenSirenLightsOffset);
             return value == 1;
         }
     }
