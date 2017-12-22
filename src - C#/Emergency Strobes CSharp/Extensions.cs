@@ -1,10 +1,11 @@
 ﻿namespace Emergency_Strobes
 {
-    // RPH
+    using System;
+
     using Rage;
     using Rage.Native;
 
-    [System.Flags]
+    [Flags]
     internal enum VehicleLight
     {
         LeftHeadlight = 1 << 0,
@@ -36,6 +37,11 @@
             switch (Game.ProductVersion.Build)
             {
                 default:
+                case 1290:
+                    BrokenLightsOffset = 0x080C;
+                    LightMultiplierOffset = 0x09A4;
+                    ShouldRenderBrokenLightsOffset = 0x0814;
+                    break;
                 case 1180:
                     BrokenLightsOffset = 0x07EC;
                     LightMultiplierOffset = 0x0984;
